@@ -175,3 +175,88 @@ FROM Animal
 ORDER BY id 
 LIMIT 6 OFFSET 3;
 
+Rechercher '%' ou '_' :
+-----------------------
+Comment faire si vous cherchez une chaîne de caractères contenant % ou _ ? Évidemment, si vous écrivez LIKE '%'  ou LIKE '_', MySQL vous donnera absolument toutes les chaînes de caractères dans le premier cas, et toutes les chaînes de 1 caractère dans le deuxième.
+Il faut donc signaler à MySQL que vous ne désirez pas utiliser % ou _ en tant que joker, mais bien en tant que caractère de recherche. Pour ça, il suffit de mettre le caractère d'échappement \, dont je vous ai déjà parlé, devant le % ou le _.
+
+Exclure une chaîne de caractères :
+----------------------------------
+
+C'est logique, mais je précise quand même (et puis, cela fait un petit rappel) : l'opérateur logique NOT  est utilisable avec LIKE. Si l'on veut rechercher les animaux dont le nom ne contient pas la lettre a, on peut donc écrire :
+
+SELECT * 
+FROM Animal 
+WHERE nom NOT LIKE '%a%';
+
+Sensibilité à la casse :
+------------------------
+
+Vous l'aurez peut-être remarqué en faisant des essais, LIKE 'chaîne de caractères'  n'est pas sensible à la casse (donc aux différences majuscules-minuscules). Pour rappel, ceci est dû à l'interclassement. Nous avons gardé l'interclassement par défaut du jeu de caractères UTF-8, qui n'est pas sensible à la casse.
+Si vous désirez faire une recherche sensible à la casse, vous pouvez définir votre chaîne de recherche comme une chaîne de type binaire, et non plus comme une simple chaîne de caractères :
+
+SELECT * 
+FROM Animal 
+WHERE nom LIKE '%Lu%'; -- insensible à la casse
+
+SELECT * 
+FROM Animal 
+WHERE nom LIKE BINARY '%Lu%'; -- sensible à la casse
+
+Recherche dans les numériques
+
+SELECT * 
+FROM Animal 
+WHERE id LIKE '1%';
+
+Recherche dans un intervalle :
+------------------------------
+
+SELECT * 
+FROM Animal 
+WHERE date_naissance <= '2009-03-23' 
+    AND date_naissance >= '2008-01-05';
+
+MAIS le mieux reste d'utiliser : 
+
+SELECT * 
+FROM Animal 
+WHERE date_naissance BETWEEN '2008-01-05' AND '2009-03-23';
+
+Set de critères : 
+-----------------
+
+L'opérateur IN vous permet de faire des recherches dans une liste de valeurs. Parfait pour nous, donc, qui voulons rechercher les animaux correspondant à une liste de noms. Voici la manière d'utiliser IN  :
+
+SELECT * 
+FROM Animal 
+WHERE nom IN ('Moka', 'Bilba', 'Tortilla', 'Balou', 'Dana', 'Redbul', 'Gingko');
+
+Suppr et modif de données : 
+---------------------------
+A REVOIR 
+
+Sauvegarde de la base de données : mysqldump
+
+Pour SAVE => mysqldump -u user -p --opt nom_de_la_base > sauvegarde.sql
+
+./mysqldump -u savingDaisy -p --opt elevage > save_elevage.sql
+
+mysqldump -u savingDaisy -p --opt elevage > C:\Users\alexa\Documents\GitHub\p7\documentation\save_elevage.sql
+
+Suppression : 
+-------------
+
+Par exemple : Zoulou est mort, paix à son âme :ange: ... Nous allons donc le retirer de la base de données.
+
+DELETE FROM Animal 
+WHERE nom = 'Zoulou';
+
+Modification : 
+--------------
+
+Par exemple, vous étiez persuadé que ce petit Pataud était un mâle, mais, quelques semaines plus tard, vous vous rendez compte de votre erreur. Il vous faut donc modifier son sexe, mais aussi son nom. Voici la requête qui va vous le permettre :
+
+UPDATE Animal 
+SET sexe='F', nom='Pataude' 
+WHERE id=21;
