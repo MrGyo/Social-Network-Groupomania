@@ -1,0 +1,236 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.6.49-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select 'hello world'
+    -> ;
++-------------+
+| hello world |
++-------------+
+| hello world |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SET NAMES 'utf8';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE DATABASE elevage CHARACTER SET 'utf8';
+Query OK, 1 row affected (0.02 sec)
+
+mysql> CREATE TABLE Animal (
+    ->     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    ->     espece VARCHAR(40) NOT NULL,
+    ->     sexe CHAR(1),
+    ->     date_naissance DATETIME NOT NULL,
+    ->     nom VARCHAR(30),
+    ->     commentaires TEXT,
+    ->     PRIMARY KEY (id)
+    -> )
+    -> ENGINE=INNODB;
+ERROR 1046 (3D000): No database selected
+mysql> use elevage
+Database changed
+mysql> CREATE TABLE Animal (
+    ->     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    ->     espece VARCHAR(40) NOT NULL,
+    ->     sexe CHAR(1),
+    ->     date_naissance DATETIME NOT NULL,
+    ->     nom VARCHAR(30),
+    ->     commentaires TEXT,
+    ->     PRIMARY KEY (id)
+    -> )
+    -> ENGINE=INNODB;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> SHOW TABLES
+    -> ;
++-------------------+
+| Tables_in_elevage |
++-------------------+
+| animal            |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE Test_tuto (
+    -> id INT NOT NULL,
+    -> nom VARCHAR(10) NOT NULL,
+    ->         PRIMARY KEY(id)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> ALTER TABLE Test_tuto
+    -> ADD COLUMN date_insertion DATE NOT NULL;
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE Test_tuto;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| id             | int(11)     | NO   | PRI | NULL    |       |
+| nom            | varchar(10) | NO   |     | NULL    |       |
+| date_insertion | date        | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+mysql> ALTER TABLE Test_tuto
+    -> DROP COLUMN date_insertion; -- Suppression de la colonne date_insertion
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE Test_tuto;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | NO   | PRI | NULL    |       |
+| nom   | varchar(10) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> ALTER TABLE Test_tuto
+    -> CHANGE nom prenom VARCHAR(10) NOT NULL;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE Test_tuto;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int(11)     | NO   | PRI | NULL    |       |
+| prenom | varchar(10) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> INSERT INTO Animal
+    -> VALUES (2, 'chat', NULL, '2010-03-24 02:23:00', 'Roucky', NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> DESCRIBE Animal;
++----------------+----------------------+------+-----+---------+----------------+
+| Field          | Type                 | Null | Key | Default | Extra          |
++----------------+----------------------+------+-----+---------+----------------+
+| id             | smallint(5) unsigned | NO   | PRI | NULL    | auto_increment |
+| espece         | varchar(40)          | NO   |     | NULL    |                |
+| sexe           | char(1)              | YES  |     | NULL    |                |
+| date_naissance | datetime             | NO   |     | NULL    |                |
+| nom            | varchar(30)          | YES  |     | NULL    |                |
+| commentaires   | text                 | YES  |     | NULL    |                |
++----------------+----------------------+------+-----+---------+----------------+
+6 rows in set (0.02 sec)
+
+mysql> INSERT INTO Animal
+    -> VALUES (2, 'chat', NULL, '2010-03-24 02:23:00', 'Roucky', NULL);
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+mysql> INSERT INTO Animal
+    -> VALUES (1, 'chien', 'M', '2010-04-05 13:43:00', 'Rox', 'Mordille beaucoup');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Animal
+    -> VALUES (NULL , 'chat', 'F', '2010-09-13 15:02:00', 'Schtroumpfette', NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Animal;
++----+--------+------+---------------------+----------------+-------------------+
+| id | espece | sexe | date_naissance      | nom            | commentaires      |
++----+--------+------+---------------------+----------------+-------------------+
+|  1 | chien  | M    | 2010-04-05 13:43:00 | Rox            | Mordille beaucoup |
+|  2 | chat   | NULL | 2010-03-24 02:23:00 | Roucky         | NULL              |
+|  3 | chat   | F    | 2010-09-13 15:02:00 | Schtroumpfette | NULL              |
++----+--------+------+---------------------+----------------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO Animal (espece, sexe, date_naissance)
+    ->     VALUES ('tortue', 'F', '2009-08-03 05:12:00');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Animal (nom, commentaires, date_naissance, espece)
+    ->     VALUES ('Choupi', 'Né sans oreille gauche', '2010-10-03 16:44:00', 'chat');
+ERROR 1366 (HY000): Incorrect string value: '\x82 sans...' for column 'commentaires' at row 1
+mysql> INSERT INTO Animal (espece, date_naissance, commentaires, nom, sexe)
+    ->     VALUES ('tortue', '2009-06-13 08:17:00', 'Carapace bizarre', 'Bobosse', 'F');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Animal;
++----+--------+------+---------------------+----------------+-------------------+
+| id | espece | sexe | date_naissance      | nom            | commentaires      |
++----+--------+------+---------------------+----------------+-------------------+
+|  1 | chien  | M    | 2010-04-05 13:43:00 | Rox            | Mordille beaucoup |
+|  2 | chat   | NULL | 2010-03-24 02:23:00 | Roucky         | NULL              |
+|  3 | chat   | F    | 2010-09-13 15:02:00 | Schtroumpfette | NULL              |
+|  4 | tortue | F    | 2009-08-03 05:12:00 | NULL           | NULL              |
+|  5 | tortue | F    | 2009-06-13 08:17:00 | Bobosse        | Carapace bizarre  |
++----+--------+------+---------------------+----------------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO Animal (nom, commentaires, date_naissance, espece)
+    ->     VALUES ('Choupi', 'Né sans oreille gauche', '2010-10-03 16:44:00', 'chat');
+ERROR 1366 (HY000): Incorrect string value: '\x82 sans...' for column 'commentaires' at row 1
+mysql> INSERT INTO Animal (nom, commentaires, date_naissance, espece)
+    ->     VALUES ('Choupi', 'Ne sans oreille gauche', '2010-10-03 16:44:00', 'chat');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Animal;
++----+--------+------+---------------------+----------------+------------------------+
+| id | espece | sexe | date_naissance      | nom            | commentaires           |
++----+--------+------+---------------------+----------------+------------------------+
+|  1 | chien  | M    | 2010-04-05 13:43:00 | Rox            | Mordille beaucoup      |
+|  2 | chat   | NULL | 2010-03-24 02:23:00 | Roucky         | NULL                   |
+|  3 | chat   | F    | 2010-09-13 15:02:00 | Schtroumpfette | NULL                   |
+|  4 | tortue | F    | 2009-08-03 05:12:00 | NULL           | NULL                   |
+|  5 | tortue | F    | 2009-06-13 08:17:00 | Bobosse        | Carapace bizarre       |
+|  6 | chat   | NULL | 2010-10-03 16:44:00 | Choupi         | Ne sans oreille gauche |
++----+--------+------+---------------------+----------------+------------------------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO Animal (espece, sexe, date_naissance, nom)
+    -> VALUES ('chien', 'F', '2008-12-06 05:18:00', 'Caroline'),
+    ->         ('chat', 'M', '2008-09-11 15:38:00', 'Bagherra'),
+    ->         ('tortue', NULL, '2010-08-23 05:18:00', NULL);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Animal;
++----+--------+------+---------------------+----------------+------------------------+
+| id | espece | sexe | date_naissance      | nom            | commentaires           |
++----+--------+------+---------------------+----------------+------------------------+
+|  1 | chien  | M    | 2010-04-05 13:43:00 | Rox            | Mordille beaucoup      |
+|  2 | chat   | NULL | 2010-03-24 02:23:00 | Roucky         | NULL                   |
+|  3 | chat   | F    | 2010-09-13 15:02:00 | Schtroumpfette | NULL                   |
+|  4 | tortue | F    | 2009-08-03 05:12:00 | NULL           | NULL                   |
+|  5 | tortue | F    | 2009-06-13 08:17:00 | Bobosse        | Carapace bizarre       |
+|  6 | chat   | NULL | 2010-10-03 16:44:00 | Choupi         | Ne sans oreille gauche |
+|  7 | chien  | F    | 2008-12-06 05:18:00 | Caroline       | NULL                   |
+|  8 | chat   | M    | 2008-09-11 15:38:00 | Bagherra       | NULL                   |
+|  9 | tortue | NULL | 2010-08-23 05:18:00 | NULL           | NULL                   |
++----+--------+------+---------------------+----------------+------------------------+
+9 rows in set (0.00 sec)
+
+mysql> INSERT INTO Animal
+    -> SET nom='Bobo', espece='chien', sexe='M', date_naissance='2010-07-21 15:41:00';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Animal;
++----+--------+------+---------------------+----------------+------------------------+
+| id | espece | sexe | date_naissance      | nom            | commentaires           |
++----+--------+------+---------------------+----------------+------------------------+
+|  1 | chien  | M    | 2010-04-05 13:43:00 | Rox            | Mordille beaucoup      |
+|  2 | chat   | NULL | 2010-03-24 02:23:00 | Roucky         | NULL                   |
+|  3 | chat   | F    | 2010-09-13 15:02:00 | Schtroumpfette | NULL                   |
+|  4 | tortue | F    | 2009-08-03 05:12:00 | NULL           | NULL                   |
+|  5 | tortue | F    | 2009-06-13 08:17:00 | Bobosse        | Carapace bizarre       |
+|  6 | chat   | NULL | 2010-10-03 16:44:00 | Choupi         | Ne sans oreille gauche |
+|  7 | chien  | F    | 2008-12-06 05:18:00 | Caroline       | NULL                   |
+|  8 | chat   | M    | 2008-09-11 15:38:00 | Bagherra       | NULL                   |
+|  9 | tortue | NULL | 2010-08-23 05:18:00 | NULL           | NULL                   |
+| 10 | chien  | M    | 2010-07-21 15:41:00 | Bobo           | NULL                   |
++----+--------+------+---------------------+----------------+------------------------+
+10 rows in set (0.00 sec)
