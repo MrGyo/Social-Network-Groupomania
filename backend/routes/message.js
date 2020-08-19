@@ -10,7 +10,7 @@ const messageCtrl = require('../controllers/message');
 const auth = require('../middleware/auth');
 // On importe multer pour la gestion des images
 const multer = require('../middleware/multer-config');
-
+/*
 // Route qui permet de créer "un message"
 router.post('/', auth, multer, messageCtrl.createMessage);
 // Route qui permet de modifier "un message"
@@ -25,5 +25,5 @@ router.get('/', auth, messageCtrl.getAllMessages);
 router.post('/:id/like', auth, messageCtrl.addLike);
 // Route qui permet de supprimer un like
 router.delete('/:id/like', auth, messageCtrl.removeLike);
-
+*/
 module.exports = router;

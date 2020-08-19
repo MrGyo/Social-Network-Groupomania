@@ -8,6 +8,9 @@ const userCtrl = require('../controllers/user');
 
 // Liste des routes avec les fonctions dédiées
 router.post('/signup', userCtrl.signup);
-router.post('/login', userCtrl.login);
+// router.post('/login', userCtrl.login);
+
+// Route pour connexion mysql
+router.get('/test', userCtrl.test);
 
 module.exports = router;

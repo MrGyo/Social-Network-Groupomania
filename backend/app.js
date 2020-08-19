@@ -27,6 +27,6 @@ app.use(bodyParser.json());
 // Va servir la route dédiée aux messages
 app.use('/api/messages', messageRoutes);
 // Va servir la route dédiée aux utilisateurs
-app.use('/api/auth', userRoutes);
+app.use('/user', userRoutes);
 
 module.exports = app;
