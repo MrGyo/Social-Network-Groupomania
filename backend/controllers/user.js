@@ -11,77 +11,105 @@ const db = require('../mysqlConfig');
 
 // Test connexion MySQL avec une route test simple
 exports.test = (req, res) => {
-     db.query('SELECT * FROM `user` WHERE `username` = "Sido"', function (error, results, fields) {
+     db.query('SELECT * FROM `user` WHERE `username` = "Alex"', function (error, results, fields) {
         console.log("error:"); 
         console.log(error);
-         if 
-            (error) res.send(error);
-         else
-            res.send(results);
-      });     
-    };
+        if (error) res.send(error);
+        else res.send(results);
+    });     
+};
 
 // fonction signup
 exports.signup = (req, res, next) => {
-    const user = req.body
+    const user = req.body;
     console.log(user.password);
     if (user.password == "" || user.password == undefined)
-    return res.send({
-        message:
-          'Pas de donnée !'
-      });   
-    // On appelle la méthode hash de bcrypt et on lui passe le mdp de l'utilisateur, le salte (10) ce sera le nombre de tours qu'on fait faire à l'algorithme
+    return res.send({message:'Pas de donnée !'});   
     bcrypt.hash(user.password, 10)
-    // On récupère le hash de mdp qu'on va enregister en tant que nouvel utilisateur dans la BDD mysql
-      .then(hash => {
+        .then(hash => {
         user.password = hash;
         query= "INSERT INTO users SET username='"+ user.username +"', email='" +user.email+ "', password='" + user.password + "'";
         db.query(query, function (error, results, fields){
             console.log("error:"); 
             console.log(error);
             if (error) {
-                // Message d'erreur si erreur
-                console.log(error) 
-                return res.status(400).json(error.sqlMessage)
-              } 
-                // Message de création du compte
-                return res.status(201).json({
-                message: 'Votre compte a été corrcecement créé !'
-              })
+                console.log(error);
+                return res.status(400).json(error.sqlMessage);
+            } 
+                return res.status(201).json({message: 'Votre compte a été corrcecement créé !'});
             });     
         });
-    };
+};
 
 // fonction login
 exports.login = (req, res, next) => {
-    // On doit trouver l'utilisateur dans la BDD qui correspond à l'adresse entrée par l'utilisateur
-    User.findOne({ email: req.body.email })
-    .then(user => {
-        // Si on trouve pas l'utilisateur on va renvoyer un code 401 "non autorisé"
-        if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-        }
-        // On utilise bcrypt pour comparer les hashs et savoir si ils ont la même string d'origine
-        bcrypt.compare(req.body.password, user.password)
-        .then(valid => {
-            // Si false c'est que ce n'est pas le bon utilisateur, ou mdp incorrect
-            if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+    const userReq = req.body.username;
+    const passReq = req.body.password;
+    if (userReq && passReq) {
+        db.query("SELECT * FROM user WHERE username= ?",
+        userReq,
+        function (_error, results, _fields) {
+            if (results.length > 0) {
+            bcrypt.compare(passReq, results[0].password).then((valid) => {
+                if (!valid) {
+                res
+                    .status(401)
+                    .json({ message: 'Utilisateur ou mot de passe inconnu' })
+                } else {
+                console.log(userReq, "est connecté au salon")
+                let privilege = ''
+                if (results[0].isAdmin === 1) {
+                    privilege = 'admin'
+                } else {
+                    privilege = 'user'
+                }
+                res.status(200).json({
+                    userId: results[0].idUSERS,
+                    username: results[0].username,
+                    email: results[0].email,
+                    privilege: privilege,
+                    accessToken: jwt.sign(
+                    { userId: results[0].idUSERS, role: privilege },
+                    jwtSecret.secret,
+                    { expiresIn: '24h' }
+                    )
+                })
+                }
+            })
+            } else {
+            res
+                .status(401)
+                .json({ message: 'Utilisateur ou mot de passe inconnu' })
             }
-            // Si true on renvoie un statut 200 et un objet JSON avec un userID + un token
-            res.status(200).json({
-                userId: user._id,
-                // Permet de vérifier si la requête est authentifiée, on va pouvoir obtenir un token encodé pour cette authentification grâce à jsonwebtoken, on va créer des tokens et les vérifier
-                token: jwt.sign(
-                  { userId: user._id },
-                  config.secret,
-                  // Argument de configuration avec une expiration au bout de 24h
-                  { expiresIn: '24h' }
-                )
-                // On encode le userID pour la création de nouveaux objets, et permet d'appliquer le bon userID aux objets et ne pas modifier les objets des autres
-            });
-        })
-        .catch(error => res.status(500).json({ error }));
+        }
+        )
+    } else {
+        res
+        .status(500)
+        .json({ message: "Entrez un nom d'utilisateur et un mot de passe" })
+    }
+};
+
+exports.getAllUsers = (req, res, next) => {
+    db.query("SELECT idUSERS, username, isAdmin, bio, email FROM groupomania.users",
+      function (error, results, fields) {
+        if (error) {
+          return res.status(400).json(error)
+        }
+        return res.status(200).json({ results })
+      }
+    )
+  };
+  
+exports.deleteUser = (req, res, next) => {
+db.query(`DELETE FROM user WHERE idUSERS=${req.params.id}`,
+    req.params.id,
+    function (error, results, fields) {
+    if (error) {
+        return res.status(400).json(error)
+    }
+    return res
+        .status(200)
+        .json({ message: 'Votre compte a bien été supprimé !' })
     })
-    .catch(error => res.status(500).json({ error }));
-};  
+};
