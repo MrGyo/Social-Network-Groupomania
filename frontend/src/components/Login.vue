@@ -1,17 +1,17 @@
 <template>
     <div class="vue-template">
         <form>
-            <h3>Connexion</h3>
-            <div class="form-group">
+            <h3 mb-3 style="color:#48abe4;">Connexion</h3>
+            <div class="form-group text-center">
                 <label>Adresse Email</label>
                 <input type="email" class="form-control form-control-lg" />
             </div>
-            <div class="form-group">
+            <div class="form-group text-center">
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" />
             </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block">Valider</button>
-            <p class="forgot-password text-right mt-2 mb-4">
+            <p class="forgot-password text-center mt-2 mb-4">
                 <router-link to="/forgot-password">Mot de passe oublié ?</router-link>
             </p>
             <div class="social-icons">

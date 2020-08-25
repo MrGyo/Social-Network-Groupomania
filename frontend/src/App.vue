@@ -2,9 +2,9 @@
   <div class="vue-template">
     <!-- Navigation -->
     <nav class="navbar bg-white justify-content-between flex-nowrap flex-row fixed-top">
-      <div class="container">
+      <div class="container my-2">
         <a class="navbar-brand float-left text-dark font-weight-bold">
-           Groupomania
+           <img src="../src/assets/groupomania_4.png" alt="" class="groupomania"/>
         </a>
         <ul class="nav navbar-nav flex-row float-right">
           <li class="nav-item">
