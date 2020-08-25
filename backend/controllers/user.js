@@ -24,7 +24,7 @@ exports.signup = (req, res, next) => {
     const user = req.body;
     console.log(user.password);
     if (user.password == "" || user.password == undefined)
-    return res.send({message:'Pas de donnée !'});   
+    return res.send({message:'Pas de données !'});   
     bcrypt.hash(user.password, 10)
         .then(hash => {
         user.password = hash;
@@ -36,7 +36,7 @@ exports.signup = (req, res, next) => {
                 console.log(error);
                 return res.status(400).json(error.sqlMessage);
             } 
-                return res.status(201).json({message: 'Votre compte a été corrcecement créé !'});
+                return res.status(201).json({message: 'Création du compte avec succès :) !'});
             });     
         });
 };
@@ -70,7 +70,7 @@ exports.login = (req, res, next) => {
                     privilege: privilege,
                     accessToken: jwt.sign(
                     { userId: results[0].idUSERS, role: privilege },
-                    jwtSecret.secret,
+                    config.secret,
                     { expiresIn: '24h' }
                     )
                 })
