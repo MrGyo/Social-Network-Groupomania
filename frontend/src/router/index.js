@@ -14,15 +14,13 @@ Vue.use(VueRouter)
     name: 'login',
     component: () => import('../components/Login.vue')
   },
-  {
-    path: '/forgot-password',
-    name: 'forgot-password',
-    component: () => import('../components/ForgotPassword.vue')
-  }
+
 ]
 
+console.log(process.env);
 const router = new VueRouter({
   mode: 'history',
+  // permet de démarrer à la racine, pas forcément utile, à voir
   base: process.env.BASE_URL,
   routes
 })

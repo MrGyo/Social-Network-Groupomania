@@ -11,9 +11,6 @@
                 <input type="password" class="form-control form-control-lg" />
             </div>
             <button type="submit" class="btn btn-dark btn-lg btn-block">Valider</button>
-            <p class="forgot-password text-center mt-2 mb-4">
-                <router-link to="/forgot-password">Mot de passe oublié ?</router-link>
-            </p>
             <div class="social-icons">
                 <ul>
                     <li><a href="#"><i class="fa fa-google text-dark"></i></a></li>

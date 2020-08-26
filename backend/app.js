@@ -21,6 +21,9 @@ app.use((req, res, next) => {
     next();
   });
 
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 // On utilise une méthode body-parser transformation du corps de la requête en JSON, en objet JS utilisable
 // Sachant que l'on va créer une requête post pour permettre à l'utilisateur de mettre en ligne une sauce sur la base d'un schéma créer dans Sauce.js il va falloir traiter les données associées à cette requête, autrement dit d'extraire l'objet JSON de la demande en provenance du frontend : on aura recours à body-parser. Il faut qu'elle soit soit formatée pour être utilisée
 app.use(bodyParser.json());

@@ -22,15 +22,16 @@ exports.test = (req, res) => {
 // fonction signup
 exports.signup = (req, res, next) => {
     const user = req.body;
-    console.log(user.password);
+    console.log("user data:");
+    console.log(user);
     if (user.password == "" || user.password == undefined)
-    return res.send({message:'Pas de données !'});   
+        return res.status(200).json({message:'Pas de données !'});   
     bcrypt.hash(user.password, 10)
         .then(hash => {
         user.password = hash;
-        query= "INSERT INTO users SET username='"+ user.username +"', email='" +user.email+ "', password='" + user.password + "'";
+        query= "INSERT INTO user SET username='"+ user.username +"', email='" +user.email+ "', password='" + user.password + "'";
         db.query(query, function (error, results, fields){
-            console.log("error:"); 
+            console.log("error sql:"); 
             console.log(error);
             if (error) {
                 console.log(error);
