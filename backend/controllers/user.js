@@ -9,16 +9,6 @@ const config = require('../config/auth.config');
 // On importe la base de données MySQL
 const db = require('../mysqlConfig');
 
-// Test connexion MySQL avec une route test simple
-exports.test = (req, res) => {
-     db.query('SELECT * FROM `user` WHERE `username` = "Alex"', function (error, results, fields) {
-        console.log("error:"); 
-        console.log(error);
-        if (error) res.send(error);
-        else res.send(results);
-    });     
-};
-
 // fonction signup
 exports.signup = (req, res, next) => {
     const user = req.body;
@@ -83,26 +73,26 @@ exports.login = (req, res, next) => {
     })
 };
 
-exports.getAllUsers = (req, res, next) => {
-    db.query("SELECT idUSERS, username, isAdmin, bio, email FROM groupomania.users",
-      function (error, results, fields) {
+exports.getAllusers = (req, res, next) => {
+    let query = "SELECT id, username, email, user_right from db_test.user";
+    db.query(query, function (error, results, fields) {
         if (error) {
           return res.status(400).json(error)
         }
         return res.status(200).json({ results })
       }
     )
-  };
-  
+};
+
 exports.deleteUser = (req, res, next) => {
-db.query(`DELETE FROM user WHERE idUSERS=${req.params.id}`,
-    req.params.id,
-    function (error, results, fields) {
-    if (error) {
-        return res.status(400).json(error)
-    }
-    return res
-        .status(200)
-        .json({ message: 'Votre compte a bien été supprimé !' })
-    })
+    let query = `DELETE FROM user WHERE id=${req.params.id}`;
+    db.query(query, req.params.id, function (error, results, fields) {
+        if (error) {
+            return res.status(400).json(error)
+        }
+        return res
+            .status(200)
+            .json({ message: 'Votre compte a bien été supprimé !' })
+        }
+    )
 };
