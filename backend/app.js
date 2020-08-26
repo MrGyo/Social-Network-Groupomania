@@ -13,7 +13,8 @@ const app = express();
 // Il faut ajouter des headers, des entêtes à l'objet réponse en ajoutant un middleware, C'est un middleware général, il n'y a pas de routes. Cela va permettre à l'application d'accéder à l'api
 app.use((req, res, next) => {
     // On donne accès à toute origine (*)
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    //res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
     // On donne la possibilité d'utiliser certains headers sur l'objet réponse
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     // On donne la possibilité d'utiliser les méthodes listées
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(bodyParser.json());
 
 // Va servir la route dédiée aux messages
-app.use('/api/messages', messageRoutes);
+app.use('/message', messageRoutes);
 // Va servir la route dédiée aux utilisateurs
 app.use('/user', userRoutes);
 

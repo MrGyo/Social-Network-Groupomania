@@ -10,6 +10,8 @@ const messageCtrl = require('../controllers/message');
 const auth = require('../middleware/auth');
 // On importe multer pour la gestion des images
 const multer = require('../middleware/multer-config');
+
+router.get('/toto', auth, function(req, res, next) { res.send("CONNECTED"); console.log("YEZAHHAs")  });
 /*
 // Route qui permet de créer "un message"
 router.post('/', auth, multer, messageCtrl.createMessage);
