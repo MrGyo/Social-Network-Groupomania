@@ -21,6 +21,10 @@ html,
   height: 100%;
 }
 
+a:link {
+  text-decoration: none;
+}
+
 .navbar {
   /*border-bottom: 2px solid #303030;*/
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -121,5 +125,8 @@ label {
   color: #222222;
 }
 
-
+#home {
+  font-size: 9em;
+  color: #fff;
+}
 

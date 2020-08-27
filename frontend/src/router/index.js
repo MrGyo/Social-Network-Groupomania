@@ -6,6 +6,11 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
+    name: 'home',
+    component: () => import('../components/Home.vue')
+  },
+  {
+    path: '/signup',
     name: 'signup',
     component: () => import('../components/Signup.vue')
   },
@@ -14,12 +19,17 @@ Vue.use(VueRouter)
     name: 'login',
     component: () => import('../components/Login.vue')
   },
+  {
+    path: '/wall',
+    name: 'wall',
+    component: () => import('../components/Wall.vue')
+  },
 
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  // permet de démarrer à la racine, pas forcément utile, à voir
+  // permet de démarrer à la racine, par conséquent démarrage sur signup
   base: process.env.BASE_URL,
   routes
 })

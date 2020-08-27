@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(user.password, 10)
         .then(hash => {
         user.password = hash;
-        query= "INSERT INTO user SET username='"+ user.username +"', email='" +user.email+ "', password='" + user.password + "'";
+        let query= "INSERT INTO user SET username='" + user.username + "', email='" + user.email+ "', password='" + user.password + "'";
         db.query(query, function (error, results, fields){
             console.log("error sql:"); 
             console.log(error);
@@ -27,9 +27,10 @@ exports.signup = (req, res, next) => {
                 console.log(error);
                 return res.status(400).json(error.sqlMessage);
             } 
-                return res.status(201).json({message: 'Création du compte avec succès :) !'});
+            return res.status(201).json({message: 'Création du compte avec succès :) !'});
             });     
-        });
+        }
+    );
 };
 
 // fonction login
@@ -45,7 +46,7 @@ exports.login = (req, res, next) => {
             bcrypt.compare(password, results[0].password).then((valid) => {
                 if (valid) 
                 {
-                    console.log(user, "est connecté au salon")
+                    console.log(user, "est connecté au salon");
                     console.log(results[0]);
                     return res.status(200).json({
                         userId: results[0].id,
@@ -68,9 +69,8 @@ exports.login = (req, res, next) => {
         else{
             console.log("Erreur log/pass!")
             return res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu'});
-        }
-            
-    })
+        }        
+    });
 };
 
 exports.getAllusers = (req, res, next) => {
@@ -81,7 +81,7 @@ exports.getAllusers = (req, res, next) => {
         }
         return res.status(200).json({ results })
       }
-    )
+    );
 };
 
 exports.deleteUser = (req, res, next) => {
@@ -94,5 +94,5 @@ exports.deleteUser = (req, res, next) => {
             .status(200)
             .json({ message: 'Votre compte a bien été supprimé !' })
         }
-    )
+    );
 };

@@ -15,15 +15,15 @@ const multer = require('../middleware/multer-config');
 
 // Route qui permet de créer "un message"
 router.post('/', auth, multer, messageCtrl.createMessage);
-/*
 // Route qui permet de modifier "un message"
 router.put('/:id', auth, multer, messageCtrl.modifyMessage);
-// Route qui permet de supprimer "un message"
-router.delete('/:id', auth, messageCtrl.deleteMessage);
 // Route qui permet de répondre à un message
 router.post('/:id', auth, multer, messageCtrl.replyMessage);
 // Route qui permet de récupérer tous les messages
 router.get('/', auth, messageCtrl.getAllMessages);
+/*
+// Route qui permet de supprimer "un message"
+router.delete('/:id', auth, messageCtrl.deleteMessage);
 // Route qui permet d'ajouter un like
 router.post('/:id/like', auth, messageCtrl.addLike);
 // Route qui permet de supprimer un like

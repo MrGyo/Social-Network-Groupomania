@@ -1,5 +1,5 @@
 <template>
-    <div class="vue-template">
+    <div class="vue-template inner-block">
         <form>
             <h3 class="mb-10" style="color:#48abe4;">Créer votre compte :)</h3>
             <div class="form-group text-center">
@@ -14,7 +14,7 @@
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="createAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block">Valider</button>
+            <router-link to="/wall"><button type="submit" v-on:click="createAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block">Valider</button></router-link>
             <p class="forgot-password text-center">
                 Déjà enregistré ?
                 <router-link :to="{name: 'login'}">Connexion</router-link>
@@ -45,12 +45,12 @@ export default {
             this.$ajax("post", "/user/signup/", newUser)
                 .then((response) => {
                     console.log(response);
-                    alert("Utilisateur créé !");
+                    //alert("Utilisateur créé !");
                     this.saveBtnDisabled = false;
                     // Si on a une réponse on appelle la méthode login prévue par le fichier index.js du dossier mixins pour une connexion automatique de l'utilisateur après la création de son compte
                     this.$login(newUser).then((response) => {
                         // Test pour vérifier la succession des méthodes "Signup" puis "login"
-                        alert("Utilisateur créé puis connecté !");
+                        //alert("Utilisateur créé puis connecté !");
                         // Renvoi toujours undefined, pourquoi ?
                         console.log(response);
                     });

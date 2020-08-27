@@ -1,5 +1,5 @@
 <template>
-    <div class="vue-template">
+    <div class="vue-template inner-block">
         <form>
             <h3 mb-3 style="color:#48abe4;">Connexion</h3>
             <div class="form-group text-center">
@@ -10,7 +10,7 @@
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block">Valider</button>
+            <router-link to="/wall"><button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block">Valider</button></router-link>
             <div class="social-icons">
                 <ul>
                     <li><a href="#"><i class="fa fa-google text-dark"></i></a></li>
@@ -43,7 +43,7 @@ export default {
             this.$ajax("post", "/user/login/", user)
                 .then((response) => {
                     console.log(response);
-                    alert("Utilisateur connecté, session de 24h :)");
+                    //alert("Utilisateur connecté, session de 24h :)");
                     localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
                     this.saveBtnDisabled = false;
                 }).catch((error) => {

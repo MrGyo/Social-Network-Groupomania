@@ -26,11 +26,11 @@ export default {
            return this.$ajax("post", "/user/login/", user)
                 .then((response) => {
                     console.log(response);
-                    alert("Login et setitem du user :)");
+                    //alert("Login et setitem du user :)");
                     // On fait une setitem du user connecté dans le local storage pour une session de 24h
                     localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
                 }).catch((error) => {
-                    alert("La méthode login n'a pas fonctonné :)");
+                    //alert("La méthode login n'a pas fonctonné :)");
                     console.log(error.response.data.message);
                 });
         },
