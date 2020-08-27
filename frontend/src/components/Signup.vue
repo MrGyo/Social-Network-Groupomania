@@ -34,18 +34,24 @@ export default {
         }
     },
     methods: {
+        // Méthode appelée au moment de la création du compte utilisateur au moment du click sur le bouton
         createAccount(){
             // Gestion de la désactivation du bouton au moment de la création du compte
             this.saveBtnDisabled = true;
+            this.$clearStorage();
             // On crée un objet contenant l'ensemble des données de l'utlisateur au moment de l'enregistrement
             var newUser = {username: this.login, email: this.email, password: this.password};
-            // On utilise axios avec une méthode post pour l'envoi des données au backend, une fois la réponse obtenue on réactive le btn
+            // On utilise la méthode prévu par le fichier index.js du dossier mixins où on passe en argument : la méthode, l'url et le nouvel utilisateur
             this.$ajax("post", "/user/signup/", newUser)
                 .then((response) => {
                     console.log(response);
+                    alert("Utilisateur créé !");
                     this.saveBtnDisabled = false;
+                    // Si on a une réponse on appelle la méthode login prévue par le fichier index.js du dossier mixins pour une connexion automatique de l'utilisateur après la création de son compte
                     this.$login(newUser).then((response) => {
-                        alert("ON EST DANS LE THEN DU THEN");
+                        // Test pour vérifier la succession des méthodes "Signup" puis "login"
+                        alert("Utilisateur créé puis connecté !");
+                        // Renvoi toujours undefined, pourquoi ?
                         console.log(response);
                     });
                 });

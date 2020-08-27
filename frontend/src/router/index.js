@@ -17,7 +17,6 @@ Vue.use(VueRouter)
 
 ]
 
-console.log(process.env);
 const router = new VueRouter({
   mode: 'history',
   // permet de démarrer à la racine, pas forcément utile, à voir

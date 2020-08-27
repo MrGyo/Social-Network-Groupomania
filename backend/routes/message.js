@@ -12,7 +12,6 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
 // Route test pour suiv singup puis login
-router.get('/toto', auth, function(req, res, next) { res.send("CONNECTED"); console.log("YEZAHHAs")  });
 
 // Route qui permet de créer "un message"
 router.post('/', auth, multer, messageCtrl.createMessage);
