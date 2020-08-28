@@ -1,5 +1,6 @@
 <template>
     <div class="vue-template inner-block-wall">
+        <header-content></header-content>
         <h1 class="text-center text-dark mb-5">{{ txt }}</h1>
         <ul>
             <li v-bind:key="index" v-for="(message, index) in allMessages">
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+import HeaderContent from './HeaderContent';
 import axios from 'axios'
 export default {
     data() {
@@ -21,6 +23,9 @@ export default {
             txt: 'Welcome to the wall :)',
             allMessages: []
         }
+    },
+    components: {
+    'header-content': HeaderContent
     },
     created(){
         axios

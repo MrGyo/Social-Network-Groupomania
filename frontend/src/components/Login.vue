@@ -1,5 +1,6 @@
 <template>
     <div class="vue-template inner-block">
+        <header-user></header-user>
         <form>
             <h3 mb-3 style="color:#48abe4;">Connexion</h3>
             <div class="form-group text-center">
@@ -10,7 +11,7 @@
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <router-link to="/wall"><button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block">Valider</button></router-link>
+            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
             <div class="social-icons">
                 <ul>
                     <li><a href="#"><i class="fa fa-google text-dark"></i></a></li>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import HeaderUser from './HeaderUser';
 import { LOCAL_STORAGE_USER } from '@/config/env';
 export default {
     data() {
@@ -31,6 +33,9 @@ export default {
             password:'',
             saveBtnDisabled : false,                
         }
+    },
+    components: {
+    'header-user': HeaderUser
     },
     methods: {
         loginAccount(){
@@ -53,6 +58,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     }));
+                    setTimeout(function(){ window.location.href = '/wall'; }, 1000);
                 }).catch((error) => {
                     console.log("Utilisateur non connecté :(");
                     console.log(error.response.data.message);

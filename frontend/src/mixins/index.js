@@ -1,5 +1,4 @@
 // On importe les constantes du fichier env.js du dossier config afin de les utiliser dans les méthodes ci-dessous
-//import {DOMAIN} from '@/config/env';
 import {DOMAIN, LOCAL_STORAGE_USER } from '@/config/env';
 
 export default {

@@ -1,5 +1,6 @@
 <template>
     <div class="vue-template inner-block">
+        <header-user></header-user>
         <form>
             <h3 class="mb-10" style="color:#48abe4;">Créer votre compte :)</h3>
             <div class="form-group text-center">
@@ -14,7 +15,7 @@
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <router-link to="/wall"><button type="submit" v-on:click="createAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block">Valider</button></router-link>
+            <button type="submit" v-on:click="createAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
             <p class="forgot-password text-center">
                 Déjà enregistré ?
                 <router-link :to="{name: 'login'}">Connexion</router-link>
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+import HeaderUser from './HeaderUser';
 export default {
     data() {
         return {
@@ -32,6 +34,9 @@ export default {
             password:'',
             saveBtnDisabled : false,
         }
+    },
+    components: {
+    'header-user': HeaderUser
     },
     methods: {
         // Méthode appelée au moment de la création du compte utilisateur au moment du click sur le bouton
@@ -61,6 +66,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500
                 }));
+            setTimeout(function(){ window.location.href = '/wall'; }, 1500);
         },
     }
 }

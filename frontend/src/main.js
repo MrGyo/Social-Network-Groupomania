@@ -10,7 +10,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 // Utilisation des sweetalerts
 Vue.use(VueSweetalert2);
-
 // Configuration
 Vue.config.productionTip = false
 
