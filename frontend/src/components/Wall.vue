@@ -4,11 +4,13 @@
         <h1 class="text-center text-dark mb-5">{{ txt }}</h1>
         <ul>
             <li v-bind:key="index" v-for="(message, index) in allMessages">
-                <router-link v-bind:to="`/message/${index + 1}`">
-                    <div>
+                <div>
+                    <div class="d-flex justify-content-between flex-nowrap">
                         <p>{{ message.title }}</p>
+                        <p>Author : {{ message.username }}</p>
                     </div>
-                </router-link>
+                    <p>{{ message.message }}</p>
+                </div>
             </li>
         </ul>
     </div>
@@ -20,7 +22,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            txt: 'Welcome to the wall :)',
+            txt: 'Another brick in the wall ?',
             allMessages: []
         }
     },

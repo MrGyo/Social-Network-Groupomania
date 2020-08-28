@@ -62,7 +62,7 @@ export default {
                 });
             this.$swal(({
                 icon: 'success',
-                title: 'Votre compte est créé :)',
+                title: 'Welcome ' + this.login + ' !',
                 showConfirmButton: false,
                 timer: 1500
                 }));

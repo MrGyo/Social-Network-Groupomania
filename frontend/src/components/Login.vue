@@ -54,7 +54,7 @@ export default {
                     // On informe l'utilisateur qu'il est connecté avec une sweetalert
                     this.$swal(({
                         icon: 'success',
-                        title: 'Vous êtes connecté :)',
+                        title: 'Welcome ' + this.login + ' !',
                         showConfirmButton: false,
                         timer: 1500
                     }));
