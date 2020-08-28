@@ -20,7 +20,10 @@ router.put('/:id', auth, multer, messageCtrl.modifyMessage);
 // Route qui permet de répondre à un message
 router.post('/:id', auth, multer, messageCtrl.replyMessage);
 // Route qui permet de récupérer tous les messages
-router.get('/', auth, messageCtrl.getAllMessages);
+// router.get('/', auth, messageCtrl.getAllMessages);
+
+// TEST all messages
+router.get('/', messageCtrl.getAllMessages2);
 /*
 // Route qui permet de supprimer "un message"
 router.delete('/:id', auth, messageCtrl.deleteMessage);

@@ -46,10 +46,22 @@ export default {
                     //alert("Utilisateur connecté, session de 24h :)");
                     localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
                     this.saveBtnDisabled = false;
+                    // On informe l'utilisateur qu'il est connecté avec une sweetalert
+                    this.$swal(({
+                        icon: 'success',
+                        title: 'Vous êtes connecté :)',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }));
                 }).catch((error) => {
                     console.log("Utilisateur non connecté :(");
                     console.log(error.response.data.message);
                     this.saveBtnDisabled = false;
+                    this.$swal(({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Utilisateur ou mot de passe incorrect :( !',
+                    }));
                 });
         }
     }

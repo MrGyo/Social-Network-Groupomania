@@ -74,7 +74,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.getAllusers = (req, res, next) => {
-    let query = "SELECT id, username, email, user_right from db_test.user";
+    let query = "SELECT id, username, email, user_right FROM db_test.user";
     db.query(query, function (error, results, fields) {
         if (error) {
           return res.status(400).json(error)

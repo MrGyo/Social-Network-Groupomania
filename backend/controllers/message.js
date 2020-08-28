@@ -53,12 +53,23 @@ exports.replyMessage = (req, res, next) => {
 };
 
 
-exports.getAllMessages = (req, res, next) => {
+/*exports.getAllMessages = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, config.secret);
   const userId = decodedToken.userId;
-  let query = "SELECT topic.*, DATE_FORMAT(creation_date,\"%d/%m/%Y %H:%i:%s\") AS creation_date_formated FROM topic GROUP BY message.id ORDER BY creation_date DESC";
+  let query = "SELECT * from user INNER JOIN topic ON user.id = topic.user_id";
   db.query(query, [userId], function (error, results, fields) {
+      if (error) {
+        return res.status(400).json(error)
+      }
+      return res.status(200).json({ results })
+    }
+  );
+};*/
+
+exports.getAllMessages2 = (req, res, next) => {
+  let query = "SELECT * from user INNER JOIN topic ON user.id = topic.user_id";
+  db.query(query, function (error, results, fields) {
       if (error) {
         return res.status(400).json(error)
       }

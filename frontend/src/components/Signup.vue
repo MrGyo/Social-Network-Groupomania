@@ -53,8 +53,14 @@ export default {
                         //alert("Utilisateur créé puis connecté !");
                         // Renvoi toujours undefined, pourquoi ?
                         console.log(response);
-                    });
+                    }); 
                 });
+            this.$swal(({
+                icon: 'success',
+                title: 'Votre compte est créé :)',
+                showConfirmButton: false,
+                timer: 1500
+                }));
         },
     }
 }

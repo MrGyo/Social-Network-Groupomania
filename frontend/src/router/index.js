@@ -24,7 +24,11 @@ Vue.use(VueRouter)
     name: 'wall',
     component: () => import('../components/Wall.vue')
   },
-
+  /*{
+    path: '/content',
+    name: 'content',
+    component: () => import('../components/Content.vue')
+  },*/
 ]
 
 const router = new VueRouter({
