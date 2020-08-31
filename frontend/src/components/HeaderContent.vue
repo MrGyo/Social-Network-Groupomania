@@ -16,5 +16,11 @@
 <script>
 export default {
     name : 'HeaderContent',
+    data() {
+        return {
+        }
+    },
+    methods : {
+    }
 }
 </script>

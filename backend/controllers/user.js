@@ -12,8 +12,6 @@ const db = require('../mysqlConfig');
 // fonction signup
 exports.signup = (req, res, next) => {
     const user = req.body;
-    console.log("user data:");
-    console.log(user);
     if (user.password == "" || user.password == undefined)
         return res.status(200).json({message:'Pas de données !'});   
     bcrypt.hash(user.password, 10)

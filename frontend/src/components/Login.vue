@@ -51,25 +51,31 @@ export default {
                     //alert("Utilisateur connecté, session de 24h :)");
                     localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
                     this.saveBtnDisabled = false;
-                    // On informe l'utilisateur qu'il est connecté avec une sweetalert
-                    this.$swal(({
+                    setTimeout(function(){ window.location.href = '/wall'; }, 2500);
+                    this.$swal({
                         icon: 'success',
                         title: 'Welcome ' + this.login + ' !',
                         showConfirmButton: false,
-                        timer: 1500
-                    }));
-                    setTimeout(function(){ window.location.href = '/wall'; }, 1000);
+                        timer: 2500
+                    });
                 }).catch((error) => {
                     console.log("Utilisateur non connecté :(");
                     console.log(error.response.data.message);
                     this.saveBtnDisabled = false;
-                    this.$swal(({
+                    this.$swal({
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Utilisateur ou mot de passe incorrect :( !',
-                    }));
+                    });
                 });
         }
     }
 }
 </script>
+
+<style scoped>
+.inner-block {
+    margin-top: 10%!important;
+}
+
+</style>

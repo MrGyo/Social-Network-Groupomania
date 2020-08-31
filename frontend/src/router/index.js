@@ -24,6 +24,11 @@ Vue.use(VueRouter)
     name: 'wall',
     component: () => import('../components/Wall.vue')
   },
+  {
+    path: '/newtopic',
+    name: 'newtopic',
+    component: () => import('../components/NewTopic.vue')
+  },
 ]
 
 const router = new VueRouter({

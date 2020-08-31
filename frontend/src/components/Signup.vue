@@ -60,14 +60,20 @@ export default {
                         console.log(response);
                     }); 
                 });
-            this.$swal(({
+            this.$swal({
                 icon: 'success',
                 title: 'Welcome ' + this.login + ' !',
                 showConfirmButton: false,
-                timer: 1500
-                }));
-            setTimeout(function(){ window.location.href = '/wall'; }, 1500);
+                timer: 2500
+                });
+            setTimeout(function(){ window.location.href = '/wall'; }, 2500);
         },
     }
 }
 </script>
+
+<style scoped>
+.inner-block {
+    margin-top: 10%!important;
+}
+</style>

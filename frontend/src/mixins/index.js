@@ -7,11 +7,12 @@ export default {
         $ajax(method, url, data) {
             // A REVOIR
             let user = JSON.parse(localStorage.getItem('user'))
-            let auth =  (user && user.token) ? {'Content-Type': 'application/json', 'Authorization': 'Bearer' +' '+ user.token }  : {'Content-Type': 'application/json'};
+            console.log(user);
+            let auth =  (user && user.token) ? {'Content-Type': 'application/json', 'Authorization': 'Bearer' +' '+ user.token } : {'Content-Type': 'application/json'};
             console.log(auth);
             // On déclare un variable url avec le nom de domaine (localhost.3000) + une url à passer
             url = DOMAIN + url;
-            // On retourne la méthode, l'url, les donnéees et les headers (en fonction de "signup" ou "login")
+            // On retourne la méthode, l'url, les donnéees et les headers
             return  this.$AJAX({
                 method: method,
                 url: url,
@@ -38,6 +39,9 @@ export default {
             if (storageToClear != null) {
                 localStorage.clear(LOCAL_STORAGE_USER);
             } 
-        }
+        },
+        $loadLocalStorage(id){
+            return (localStorage.getItem(id) == null) ? [] : JSON.parse(localStorage.getItem(id));
+        },
     }
 }
