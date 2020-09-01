@@ -13,7 +13,7 @@ const db = require('../mysqlConfig');
 exports.signup = (req, res, next) => {
     const user = req.body;
     if (user.password == "" || user.password == undefined)
-        return res.status(200).json({message:'Pas de données !'});   
+        return res.status(200).json({message:'No data !'});   
     bcrypt.hash(user.password, 10)
         .then(hash => {
         user.password = hash;
@@ -25,7 +25,7 @@ exports.signup = (req, res, next) => {
                 console.log(error);
                 return res.status(400).json(error.sqlMessage);
             } 
-            return res.status(201).json({message: 'Création du compte avec succès :) !'});
+            return res.status(201).json({message: 'Your account has been created !'});
             });     
         }
     );
@@ -36,7 +36,7 @@ exports.login = (req, res, next) => {
     let user = req.body.username;
     let password = req.body.password;
     if (!user || !password)
-       return res.status(500).json({ message: "Entrez un nom d'utilisateur et un mot de passe" });
+       return res.status(500).json({ message: "Enter a username and a password" });
     let query = "SELECT * FROM user WHERE username='" + user + "'";
 
     db.query(query, function (error, results, fields) {
@@ -44,7 +44,7 @@ exports.login = (req, res, next) => {
             bcrypt.compare(password, results[0].password).then((valid) => {
                 if (valid) 
                 {
-                    console.log(user, "est connecté au salon");
+                    console.log(user, "is connected to the chatroom");
                     console.log(results[0]);
                     return res.status(200).json({
                         userId: results[0].id,
@@ -60,19 +60,19 @@ exports.login = (req, res, next) => {
                 }
                 else{
                     console.log("Erreur log/pass!")
-                    return res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu'});
+                    return res.status(401).json({ message: 'Username or password unknown'});
                 }
             });
         } 
         else{
             console.log("Erreur log/pass!")
-            return res.status(401).json({ message: 'Utilisateur ou mot de passe inconnu'});
+            return res.status(401).json({ message: 'Username or password unknown'});
         }        
     });
 };
 
 exports.getAllusers = (req, res, next) => {
-    let query = "SELECT id, username, email, user_right FROM db_test.user";
+    let query = "SELECT id, username, email, user_right FROM db_test.user ORDER BY user_right ASC";
     db.query(query, function (error, results, fields) {
         if (error) {
           return res.status(400).json(error)
@@ -90,7 +90,7 @@ exports.deleteUser = (req, res, next) => {
         }
         return res
             .status(200)
-            .json({ message: 'Votre compte a bien été supprimé !' })
+            .json({ message: 'Your account has been deleted !' })
         }
     );
 };

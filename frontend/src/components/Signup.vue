@@ -66,7 +66,7 @@ export default {
                 showConfirmButton: false,
                 timer: 2500
                 });
-            setTimeout(function(){ window.location.href = '/wall'; }, 2500);
+            setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
         },
     }
 }

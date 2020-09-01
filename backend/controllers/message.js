@@ -4,13 +4,14 @@ const config = require('../config/auth.config');
 
 exports.createTopic = (req, res, next) => {
   const topic = req.body
-  //let query= "INSERT INTO topic SET title='" + topic.title + "', message='" + topic.message + "'";
-  let query= "INSERT INTO topic SET ?";
-  db.query(query, topic, function (error, results, fields) {
+  console.log(topic);
+  let query= "INSERT INTO topic SET title='" + topic.title.addSlashes() + "', message='" + topic.message.addSlashes() + "', user_id= '" + topic.user_id + "'";
+  db.query(query, function (error, results, fields) {
     if (error) {
+      console.log(error);
       return res.status(400).json(error);
     }
-    return res.status(201).json({ message: 'Votre sujet a été créé !' })
+    return res.status(201).json({ message: 'Your topic is created !' })
   });
 };
 
@@ -26,7 +27,7 @@ exports.modifyMessage = (req, res, next) => {
       const role = decodedToken.role;
       const messageId = results[0].id;
       if (userId !== messageId && role !== 'admin') {
-        return res.status(401).json({ message: 'Accès non autorisé' })
+        return res.status(401).json({ message: 'Access denied !' })
       }
       const updatedMessage = req.body;
       db.query('UPDATE topic SET ? WHERE id=?', [updatedMessage, req.params.id], function (error, results, fields) {
@@ -35,7 +36,7 @@ exports.modifyMessage = (req, res, next) => {
           }
           return res
             .status(200)
-            .json({ message: 'Votre message a bien été modifié !' })
+            .json({ message: 'Your message has been modified !' })
         }
       );
     }
@@ -49,7 +50,7 @@ exports.replyMessage = (req, res, next) => {
     if (error) {
       return res.status(400).json(error)
     }
-    return res.status(201).json({ message: 'Votre réponse a bien été postée !' })
+    return res.status(201).json({ message: 'Your message has been sent !' })
   });
 };
 
@@ -68,17 +69,6 @@ exports.getAllTopics = (req, res, next) => {
   );
 };
 
-/*exports.getAllTopics = (req, res, next) => {
-  let query = "SELECT * from user INNER JOIN topic ON user.id = topic.user_id ORDER BY creation_date DESC";
-  db.query(query, function (error, results, fields) {
-      if (error) {
-        return res.status(400).json(error)
-      }
-      return res.status(200).json({ results })
-    }
-  );
-};*/
-
 exports.deleteMessage = (req, res, next) => {
   let query = 'SELECT * FROM topic WHERE id=?'
   db.query(query, req.params.id, function (error, results, fields) {
@@ -91,7 +81,7 @@ exports.deleteMessage = (req, res, next) => {
       const role = decodedToken.role;
       const messageId = results[0].idUSERS;
       if (userId !== messageId && role !== 'admin') {
-        return res.status(401).json({ message: 'Accès non autorisé' })
+        return res.status(401).json({ message: 'Access denied !' })
       };
       db.query(
         `DELETE FROM topic WHERE id=${req.params.id}`,
@@ -102,7 +92,7 @@ exports.deleteMessage = (req, res, next) => {
           }
           return res
             .status(200)
-            .json({ message: 'Votre message a bien été supprimé !' })
+            .json({ message: 'Your message has been deleted !' })
         }
       );
     }

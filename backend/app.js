@@ -10,6 +10,17 @@ const messageRoutes = require('./routes/message');
 // On utilise la méthode express
 const app = express();
 
+if (!String.prototype.hasOwnProperty('addSlashes')) {
+  String.prototype.addSlashes = function() {
+      return this.replace(/&/g, '&amp;') /* This MUST be the 1st replacement. */
+           .replace(/'/g, '&apos;') /* The 4 other predefined entities, required. */
+           .replace(/"/g, '&quot;')
+           .replace(/\\/g, '\\\\')
+           .replace(/</g, '&lt;')
+           .replace(/>/g, '&gt;').replace(/\u0000/g, '\\0');
+      }
+}
+
 // Il faut ajouter des headers, des entêtes à l'objet réponse en ajoutant un middleware, C'est un middleware général, il n'y a pas de routes. Cela va permettre à l'application d'accéder à l'api
 app.use((req, res, next) => {
     // On donne accès à toute origine (*)

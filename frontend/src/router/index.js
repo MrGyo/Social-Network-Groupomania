@@ -29,6 +29,11 @@ Vue.use(VueRouter)
     name: 'newtopic',
     component: () => import('../components/NewTopic.vue')
   },
+  {
+    path: '/userslist',
+    name: 'userslist',
+    component: () => import('../components/UsersList.vue')
+  },
 ]
 
 const router = new VueRouter({

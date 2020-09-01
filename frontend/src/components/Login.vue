@@ -51,7 +51,7 @@ export default {
                     //alert("Utilisateur connecté, session de 24h :)");
                     localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
                     this.saveBtnDisabled = false;
-                    setTimeout(function(){ window.location.href = '/wall'; }, 2500);
+                    setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
                     this.$swal({
                         icon: 'success',
                         title: 'Welcome ' + this.login + ' !',

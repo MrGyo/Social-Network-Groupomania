@@ -1,5 +1,8 @@
 <template>
     <div class="vue-template inner-block-wall">
+        <div>
+             <router-link :to="{name: 'wall'}"><button type="submit" class="btn btn-secondary mb-4"><i class="fa fa-arrow-left text-white mr-2"></i>Back</button></router-link>
+        </div>
         <header-content></header-content>
         <form>
             <div class="form-group">
@@ -10,7 +13,9 @@
                 <label>Message</label>
                 <input type="text" class="form-control form-control-lg" v-model="message"/>
             </div>
-            <button type="submit" class="btn btn-primary" v-on:click="createTopic()" :disabled="saveBtnDisabled">Send</button>
+            <div div class="d-flex justify-content-end"> 
+                <button type="submit" class="btn btn-primary" v-on:click="createTopic()" :disabled="saveBtnDisabled">Send</button>
+            </div>
         </form>
     </div>
 </template>
@@ -27,6 +32,9 @@ export default {
     },
     components: {
     'header-content': HeaderContent
+    },
+    mounted(){
+
     },
     methods: {
         createTopic(){
@@ -45,7 +53,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500
                 });
-            setTimeout(function(){ window.location.href = '/wall'; }, 1500);
+            setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 1500);
         }
     }
 }
@@ -53,9 +61,9 @@ export default {
 
 <style scoped>
 .btn {
-    width : 100px!important;
+    width : 110px!important;
 }
 .inner-block-wall {
-    margin-top: 10%!important;
+    margin-top: 15%!important;
 }
 </style>
