@@ -1,13 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: #48abe4 !important;
-  /*background-image: url('../wall_2.jpg');*/
+  /*background: #48abe4 !important;*/
+  background-image: url('../wall_2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  /*min-height: 100vh;*/
+  background-attachment: fixed;
+  height: 100vh;
   display: flex;
   font-weight: 400;
 }
@@ -16,13 +19,14 @@ a:link {
   text-decoration: none;
 }
 
-/*body,
-html,
-.App,
-.vertical-center {
-  width: 100%;
-}*/
-
+h1,
+h2,
+h3,
+form,
+.btn,
+p {
+  font-family: 'Montserrat', sans-serif;
+}
 
 .vertical-center {
   width: 100%;
@@ -132,5 +136,7 @@ label {
 #home {
   font-size: 9em;
   color: #e5e5e5;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
 

@@ -38,7 +38,6 @@ exports.login = (req, res, next) => {
     if (!user || !password)
        return res.status(500).json({ message: "Enter a username and a password" });
     let query = "SELECT * FROM user WHERE username='" + user + "'";
-
     db.query(query, function (error, results, fields) {
         if (results.length > 0) {
             bcrypt.compare(password, results[0].password).then((valid) => {

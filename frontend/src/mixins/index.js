@@ -7,9 +7,7 @@ export default {
         $ajax(method, url, data) {
             // A REVOIR
             let user = JSON.parse(localStorage.getItem('user'))
-            console.log(user);
             let auth =  (user && user.token) ? {'Content-Type': 'application/json', 'Authorization': 'Bearer' +' '+ user.token } : {'Content-Type': 'application/json'};
-            console.log(auth);
             // On déclare un variable url avec le nom de domaine (localhost.3000) + une url à passer
             url = DOMAIN + url;
             // On retourne la méthode, l'url, les donnéees et les headers

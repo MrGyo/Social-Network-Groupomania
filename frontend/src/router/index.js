@@ -34,6 +34,11 @@ Vue.use(VueRouter)
     name: 'userslist',
     component: () => import('../components/UsersList.vue')
   },
+  {
+    path: '/useraccount',
+    name: 'useraccount',
+    component: () => import('../components/UserAccount.vue')
+  },
 ]
 
 const router = new VueRouter({

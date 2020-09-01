@@ -1,8 +1,6 @@
 <template>
     <div class="vue-template inner-block-wall">
-        <div>
-             <router-link :to="{name: 'wall'}"><button type="submit" class="btn btn-secondary mb-4"><i class="fa fa-arrow-left text-white mr-2"></i>Back</button></router-link>
-        </div>
+        <router-link :to="{name: 'wall'}"><i class="fa fa-arrow-circle-left fa-3x text-secondary mb-5"></i></router-link>
         <header-content></header-content>
         <h1 class="text-center text-dark mb-5">{{ txt }}</h1>
         <ul>

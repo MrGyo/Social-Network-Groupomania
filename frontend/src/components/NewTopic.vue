@@ -1,9 +1,8 @@
 <template>
     <div class="vue-template inner-block-wall">
-        <div>
-             <router-link :to="{name: 'wall'}"><button type="submit" class="btn btn-secondary mb-4"><i class="fa fa-arrow-left text-white mr-2"></i>Back</button></router-link>
-        </div>
         <header-content></header-content>
+        <router-link :to="{name: 'wall'}"><i class="fa fa-arrow-circle-left fa-3x text-secondary mb-5"></i></router-link>
+        <h1 class="text-center text-dark mb-5">{{ txt }}</h1>
         <form>
             <div class="form-group">
                 <label>Title</label>
@@ -27,21 +26,18 @@ export default {
         return {
             saveBtnDisabled : false,
             title: '',
-            message: ''
+            message: '',
+            txt: 'Express yourself !'
         }
     },
     components: {
     'header-content': HeaderContent
-    },
-    mounted(){
-
     },
     methods: {
         createTopic(){
             let user = JSON.parse(localStorage.getItem('user'))
             this.saveBtnDisabled = true;
             var newTopic = {title: this.title, message: this.message, user_id: user.userId};
-            console.log(newTopic);
             this.$ajax("post", "/message", newTopic)
                 .then((response) => {
                     console.log(response);
@@ -64,6 +60,6 @@ export default {
     width : 110px!important;
 }
 .inner-block-wall {
-    margin-top: 15%!important;
+    margin-top: 10%!important;
 }
 </style>

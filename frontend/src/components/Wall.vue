@@ -26,7 +26,6 @@
 
 <script>
 import HeaderContent from './HeaderContent';
-//import axios from 'axios'
 export default {
     data() {
         return {
@@ -40,7 +39,6 @@ export default {
     },
     mounted(){
         let userInfo = JSON.parse(localStorage.getItem('user'));
-        console.log(userInfo);
         var user = userInfo.userId;
         this.$ajax("get", "/message", user)
             .then((reponse) => {
@@ -51,11 +49,6 @@ export default {
             }
         )
     },
-    methods: {
-        modifyTopic() {
-
-        }
-    }
 }
 </script>
 
