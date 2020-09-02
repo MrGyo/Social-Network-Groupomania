@@ -23,10 +23,7 @@ export default {
             // On retourne les résultats de la méthode ajax
            return this.$ajax("post", "/user/login/", user)
                 .then((response) => {
-                    console.log(response);
-                    //alert("Login et setitem du user :)");
-                    // On fait une setitem du user connecté dans le local storage pour une session de 24h
-                    localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
+                    this.$initLogin(response);
                 }).catch((error) => {
                     //alert("La méthode login n'a pas fonctonné :)");
                     console.log(error.response.data.message);
@@ -38,8 +35,38 @@ export default {
                 localStorage.clear(LOCAL_STORAGE_USER);
             } 
         },
-        $loadLocalStorage(id){
-            return (localStorage.getItem(id) == null) ? [] : JSON.parse(localStorage.getItem(id));
+
+        $initLogin(response) {
+            console.log(response);
+            this.$store.state.user = response.data;
+            console.log("STORAGE BITCH");
+            console.log(this.$store.state.user);
+            //alert("Login et setitem du user :)");
+            // On fait une setitem du user connecté dans le local storage pour une session de 24h
+            localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
+
         },
+        $checkLogin() {
+            let storageDataUser = localStorage.getItem(LOCAL_STORAGE_USER);
+            if (!storageDataUser)
+            {
+                alert("GET THEFUCK OUT");
+                this.$router.push({  name: "home"});
+            }
+            else
+            {
+                this.$ajax("get", "/user/checkAuth")
+                .then((response) => {
+                    console.log(response);
+                    //-- JR Recupere les données du LocalStorage qui les met vers le store
+                    this.$store.state.user = JSON.parse(storageDataUser);
+                }).catch((error) => {
+                    //alert("La méthode login n'a pas fonctonné :)");
+                    console.log(error);
+                    alert("GET THEFUCK OUT VOTRE SESSION A EXPIRE");
+                    this.$router.push({  name: "home"});
+                });
+            }
+        }
     }
 }

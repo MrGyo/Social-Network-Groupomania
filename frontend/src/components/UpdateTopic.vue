@@ -1,17 +1,16 @@
 <template>
     <div>
         <form>
-            <div class="form-group">
+            <div v-show="!currentMessage.id_parent" class="form-group">
                 <label>Title</label>
-                <input v-if="parentId == null" type="text" class="form-control form-control-lg" v-model="title"/>
-                <input v-else type="text" class="form-control form-control-lg" v-model="parentTitle" disabled/>
+                <input type="text" class="form-control form-control-lg" v-model="title"/>
             </div>
             <div class="form-group">
                 <label>Message</label>
                 <input type="text" class="form-control form-control-lg" v-model="message"/>
             </div>
             <div div class="d-flex justify-content-end"> 
-                <button type="submit" class="btn btn-primary" v-on:click="createTopic()" :disabled="saveBtnDisabled">Send</button>
+                <button type="submit" class="btn btn-primary" v-on:click="updateTopic()" :disabled="saveBtnDisabled">Update</button>
             </div>
         </form>
     </div>
@@ -19,26 +18,33 @@
 
 <script>
 export default {
-    props: ['parentId', 'parentTitle'],
+    props: ['currentMessage'],
     data() {
         return {
             saveBtnDisabled : false,
             title: '',
-            message: ''
+            message: '',
+            messageId: '',
         }
     },
     components: {
     },
+    mounted() {
+        this.title = this.currentMessage.title;
+        this.message = this.currentMessage.message;
+        this.messageId = this.currentMessage.id;
+    },
     methods: {
-        createTopic(){
-            let user = JSON.parse(localStorage.getItem('user'))
+        updateTopic(){
+            //let user = JSON.parse(localStorage.getItem('user'))
             this.saveBtnDisabled = true;
-            var newTopic = {title: this.title, message: this.message, user_id: user.userId, id_parent: (this.parentId == null) ? "" : this.parentId};
-            this.$ajax("post", "/message", newTopic)
+            var updateTopic = (!this.currentMessage.id_parent) ? {title: this.title, message: this.message} : { message: this.message};
+
+            this.$ajax("post", "/message/" + this.messageId, updateTopic)
                 .then((response) => {
                     console.log(response);
                     this.saveBtnDisabled = false;
-                    this.$root.$emit('bv::hide::modal', 'modalTopic');
+                    this.$root.$emit('bv::hide::modal', 'modalUpdateTopic');
                     this.$swal({
                         icon: 'success',
                         title: 'Message sent !',
@@ -54,7 +60,11 @@ export default {
                     });
                 });
         }
+    },
+    watch: {
+      
     }
+
 }
 </script>
 

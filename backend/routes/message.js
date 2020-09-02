@@ -11,22 +11,13 @@ const auth = require('../middleware/auth');
 // On importe multer pour la gestion des images
 const multer = require('../middleware/multer-config');
 
-// TEST all messages sans auth
-//router.get('/', messageCtrl.getAllTopics);
-
-// Route qui permet de créer "un message"
+// Route qui permet de créer "un topic" ou de "répondre à un topic"
 router.post('/', auth, multer, messageCtrl.createTopic);
 // Route qui permet de modifier "un message"
-router.put('/:id', auth, multer, messageCtrl.modifyMessage);
-// Route qui permet de répondre à un message
-router.post('/:id', auth, multer, messageCtrl.replyMessage);
+router.post('/:id', auth, multer, messageCtrl.modifyMessage);
 // Route qui permet de récupérer tous les messages
 router.get('/', auth, messageCtrl.getAllTopics);
 // Route qui permet de supprimer "un message"
 router.delete('/:id', auth, messageCtrl.deleteMessage);
-// Route qui permet d'ajouter un like
-router.post('/:id/like', auth, messageCtrl.addLike);
-// Route qui permet de supprimer un like
-router.delete('/:id/like', auth, messageCtrl.removeLike);
 
 module.exports = router;

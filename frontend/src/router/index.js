@@ -7,7 +7,7 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'home',
-    component: () => import('../components/Home.vue')
+    component: () => import('../components/Home.vue'),
   },
   {
     path: '/signup',
@@ -23,11 +23,6 @@ Vue.use(VueRouter)
     path: '/wall',
     name: 'wall',
     component: () => import('../components/Wall.vue')
-  },
-  {
-    path: '/newtopic',
-    name: 'newtopic',
-    component: () => import('../components/NewTopic.vue')
   },
   {
     path: '/userslist',

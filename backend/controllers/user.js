@@ -82,6 +82,7 @@ exports.getAllusers = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
+    console.log(userId);
     let query = `DELETE FROM user WHERE id=${req.params.id}`;
     db.query(query, req.params.id, function (error, results, fields) {
         if (error) {
@@ -92,4 +93,9 @@ exports.deleteUser = (req, res, next) => {
             .json({ message: 'Your account has been deleted !' })
         }
     );
+};
+
+exports.checkAuth = (req, res, next) => {
+    //console.log(userId);
+    return res.status(200).json({ message: 'Everything is fine: your session exist !'});
 };

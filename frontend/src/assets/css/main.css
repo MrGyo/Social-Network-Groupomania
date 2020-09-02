@@ -13,6 +13,18 @@ body {
   height: 100vh;
   display: flex;
   font-weight: 400;
+  overflow-y: scroll;
+  padding-right: 0!important;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 a:link {
@@ -138,5 +150,22 @@ label {
   color: #e5e5e5;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
+}
+
+.btn-cancel-delog {
+  width: 200px!important;
+  margin-left: 2%!important;
+  background-color: #dd3e89!important;
+  border-color: #dd3e89!important;
+}
+
+.btn-cancel-delog:hover {
+  background-color: #c43f7e!important;
+  border-color: #c43f7e!important;
+}
+
+.btn-confirm-delog {
+  width: 200px!important;
+  margin-right: 2%!important;
 }
 

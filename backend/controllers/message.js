@@ -3,15 +3,19 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/auth.config');
 
 exports.createTopic = (req, res, next) => {
-  const topic = req.body
+  let topic = req.body
+  let query = "";
   console.log(topic);
-  let query= "INSERT INTO topic SET title='" + topic.title.addSlashes() + "', message='" + topic.message.addSlashes() + "', user_id= '" + topic.user_id + "'";
+  if (topic.id_parent == "")
+    query= "INSERT INTO topic SET title='" + topic.title.addSlashes() + "', message='" + topic.message.addSlashes() + "', user_id= '" + topic.user_id + "'";
+  else
+    query= "INSERT INTO topic SET title='" + topic.title.addSlashes() + "', message='" + topic.message.addSlashes() + "', user_id= '" + topic.user_id + "', id_parent= '" + topic.id_parent + "'";
   db.query(query, function (error, results, fields) {
     if (error) {
       console.log(error);
       return res.status(400).json(error);
     }
-    return res.status(201).json({ message: 'Your topic is created !' })
+    return res.status(201).json({ message: 'Your message has been sent !' })
   });
 };
 
@@ -21,15 +25,18 @@ exports.modifyMessage = (req, res, next) => {
       if (error) {
         return res.status(400).json(error)
       }
-      const token = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(token, config.secret);
-      const userId = decodedToken.userId;
-      const role = decodedToken.role;
-      const messageId = results[0].id;
-      if (userId !== messageId && role !== 'admin') {
+
+      let token = req.headers.authorization.split(' ')[1];
+      let decodedToken = jwt.verify(token, config.secret);
+      let userId = decodedToken.userId;
+      let role = decodedToken.role;
+      let messageUserId = results[0].user_id;
+      //console.log(decodedToken);
+      if (userId !== messageUserId && role !== 'admin') {
         return res.status(401).json({ message: 'Access denied !' })
       }
-      const updatedMessage = req.body;
+
+      let updatedMessage = req.body;
       db.query('UPDATE topic SET ? WHERE id=?', [updatedMessage, req.params.id], function (error, results, fields) {
           if (error) {
             return res.status(400).json(error)
@@ -42,18 +49,6 @@ exports.modifyMessage = (req, res, next) => {
     }
   );
 };
-
-exports.replyMessage = (req, res, next) => {
-  const message = req.body;
-  let query = 'INSERT INTO messages SET ?';
-  db.query(query, message, function (error, results, fields) {
-    if (error) {
-      return res.status(400).json(error)
-    }
-    return res.status(201).json({ message: 'Your message has been sent !' })
-  });
-};
-
 
 exports.getAllTopics = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
@@ -95,32 +90,6 @@ exports.deleteMessage = (req, res, next) => {
             .json({ message: 'Your message has been deleted !' })
         }
       );
-    }
-  );
-};
-
-exports.addLike = (req, res, next) => {
-  const like = req.body;
-  let query = 'INSERT INTO like SET ?';
-  db.query(query, like, function (error, results, fields) {
-    if (error) {
-      return res.status(400).json(error)
-    };
-    return res.status(201).json({ message: 'Votre like a bien été ajouté !' })
-  });
-};
-
-exports.removeLike = (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];
-  const decodedToken = jwt.verify(token, config.secret);
-  const userId = decodedToken.userId;
-  db.query(`DELETE FROM like WHERE id=${req.params.id} && id=${userId}`, function (error, results, fields) {
-      if (error) {
-        return res.status(400).json(error)
-      };
-      return res
-        .status(200)
-        .json({ message: 'Votre like a bien été supprimé !' })
     }
   );
 };

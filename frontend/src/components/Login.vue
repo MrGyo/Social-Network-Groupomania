@@ -2,16 +2,16 @@
     <div class="vue-template inner-block">
         <header-user></header-user>
         <form>
-            <h3 mb-3 style="color:#48abe4;">Connexion</h3>
+            <h3 mb-3 style="color:#48abe4;">Sign in</h3>
             <div class="form-group text-center">
-                <label>Pseudo</label>
+                <label>Username</label>
                 <input type="text" class="form-control form-control-lg" v-model="login"/>
             </div>
             <div class="form-group text-center">
-                <label>Mot de passe</label>
+                <label>Password</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
+            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Confirm</button>
             <div class="social-icons">
                 <ul>
                     <li><a href="#"><i class="fa fa-google text-dark"></i></a></li>
@@ -25,7 +25,6 @@
 
 <script>
 import HeaderUser from './HeaderUser';
-import { LOCAL_STORAGE_USER } from '@/config/env';
 export default {
     data() {
         return {
@@ -47,9 +46,7 @@ export default {
             // On utilise la méthode prévu par le fichier index.js du dossier mixins où on passe en argument : la méthode, l'url et le nouvel utilisateur
             this.$ajax("post", "/user/login/", user)
                 .then((response) => {
-                    console.log(response);
-                    //alert("Utilisateur connecté, session de 24h :)");
-                    localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
+                    this.$initLogin(response);
                     this.saveBtnDisabled = false;
                     setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
                     this.$swal({
