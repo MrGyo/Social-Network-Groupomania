@@ -37,7 +37,8 @@ exports.login = (req, res, next) => {
     let password = req.body.password;
     if (!user || !password)
        return res.status(500).json({ message: "Enter a username and a password" });
-    let query = "SELECT * FROM user WHERE username='" + user + "'";
+       // on autorise les gens à se connecter si ils ne sont pas effacés
+    let query = "SELECT * FROM user WHERE username='" + user + "' AND fl_delete = 0";
     db.query(query, function (error, results, fields) {
         if (results.length > 0) {
             bcrypt.compare(password, results[0].password).then((valid) => {
@@ -71,7 +72,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.getAllusers = (req, res, next) => {
-    let query = "SELECT id, username, email, user_right FROM db_test.user ORDER BY user_right ASC";
+    let query = "SELECT id, username, email, user_right FROM db_test.user WHERE fl_delete = 0 ORDER BY user_right ASC";
     db.query(query, function (error, results, fields) {
         if (error) {
           return res.status(400).json(error)
@@ -82,9 +83,9 @@ exports.getAllusers = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-    let query = `DELETE FROM user WHERE id=${req.params.id}`;
-    //let query = "DELETE FROM user WHERE id=?";
-    db.query(query, req.params.id, function (error, results, fields) {
+    let query = `UPDATE user SET fl_delete=1 WHERE id=${req.params.id}`;
+    db.query(query, function (error, results, fields) {
+        console.log(error);
         if (error) {
             return res.status(400).json(error)
         }
@@ -97,5 +98,6 @@ exports.deleteUser = (req, res, next) => {
 
 exports.checkAuth = (req, res, next) => {
     //console.log(userId);
+    //@TODO: check si le user est pas delete
     return res.status(200).json({ message: 'Everything is fine: your session exist !'});
 };

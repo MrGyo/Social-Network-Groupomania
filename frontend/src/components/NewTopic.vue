@@ -50,7 +50,7 @@ export default {
                     this.$swal({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Une erreur est survenue :(',
+                            text: 'Error :(',
                     });
                 });
         }

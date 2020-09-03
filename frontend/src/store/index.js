@@ -6,8 +6,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        //-- Tableau contenant le user actuel
         user: [],
     },
+    //-- Permet de créer des methodes lié au variable du store cf : user
     getters: {
         user(state) {
             return state.user;

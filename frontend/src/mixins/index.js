@@ -151,7 +151,7 @@ export default {
                 }
             })
         },
-        $confirmDeleteAccountAdmin() {
+        $confirmDeleteAdmin() {
             const swalWithBootstrapButtons = this.$swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-secondary btn-confirm-delog',
@@ -160,7 +160,7 @@ export default {
                 buttonsStyling: false
                 })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure you want to delete your account?',
+                title: 'Are you sure you want to delete this message?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '<i class="far fa-frown mr-2""></i>Delete',
@@ -169,8 +169,7 @@ export default {
                 }).then((result) => {
                 if (result.value) {
                     swalWithBootstrapButtons.fire({
-                        title: 'Goodbye!',
-                        text: 'Thank you for your visit :)',
+                        title: 'Message deleted!',
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
@@ -181,6 +180,47 @@ export default {
                     return;
                 }
             })
+        },
+        $linkify(inputText) {
+            var replacedText, replacePattern1, replacePattern2, replacePattern3;
+        
+            //URLs starting with http://, https://, or ftp://
+            replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
+            replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+        
+            //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+            replacePattern2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
+            replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+        
+            //Change email addresses to mailto:: links.
+            replacePattern3 = /(([a-zA-Z0-9\-_.])+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
+            replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+        
+            return replacedText;
+        },
+        $checkFieldIdentity(id, textErreur){
+            let fieldToControl = document.getElementById(id).value;
+            let regexFieldToControl =  /^[A-Za-zéèàêë-]+$/;
+            if (!regexFieldToControl .test(fieldToControl) || fieldToControl.length <= 1) {
+                const swalWithBootstrapButtons = this.$swal.mixin.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-secondary btn-ok',
+                    },
+                    buttonsStyling: false
+                  })
+                  swalWithBootstrapButtons.fire({
+                    title: 'Oops!',
+                    text: textErreur,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                  }).then((result) => {
+                    if (result.value) {
+                      return;
+                    }
+                  })
+                return false;
+            }
+            return true;
         }
         
     }

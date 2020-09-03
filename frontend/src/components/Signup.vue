@@ -15,7 +15,7 @@
                 <label>Password</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="createAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Confirm</button>
+            <button type="submit" v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Confirm</button>
             <p class="forgot-password text-center">
                 Already registered ?
                 <router-link :to="{name: 'login'}">Sign in</router-link>
@@ -63,6 +63,30 @@ export default {
             this.$welcomeMessage();
             setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
         },
+        checkFieldIdentity(){
+            let fieldToControl = this.login;
+            let regexFieldToControl =  /^[A-Za-zéèàêë-]+$/;
+            if (!regexFieldToControl .test(fieldToControl) || fieldToControl.length <= 1) {
+                const swalWithBootstrapButtons = this.$swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-secondary btn-ok',
+                    },
+                    buttonsStyling: false
+                  })
+                  swalWithBootstrapButtons.fire({
+                    title: 'Oops!',
+                    text: 'Invalid username',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                  }).then((result) => {
+                    if (result.value) {
+                      return;
+                    }
+                  })
+                return false;
+            }
+            return true;
+        }
     }
 }
 </script>

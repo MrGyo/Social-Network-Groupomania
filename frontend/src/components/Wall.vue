@@ -9,31 +9,31 @@
         <hr>
         <ul>
             <li class="mb-4 mt-4" v-bind:key="index" v-for="(message, index) in allMessages">
-                <div class="date_message-parent">{{ message.creation_date }}</div>
+                <div class="date_message-parent">{{ moment(message.creation_date).fromNow() }}</div>
                 <div class="card mb-1 topic-card">
                     <div class="d-flex justify-content-between flex-nowrap">
                         <p class="ml-2 mt-3 font-weight-bold title" v-html="message.title"/>
                         <p class="mr-2 mt-3 font-italic">By {{ message.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
                     </div>
-                    <p class="ml-2" v-html="message.message"/>
+                    <p class="ml-2" v-html="$linkify(message.message)"/>
                 </div>
                 <div class="d-flex justify-content-end mb-3">
                     <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-minimal btn-primary mt-2" title="Reply"><i class="fa fa-reply text-white"></i></button>
-                    <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message)" @click="currentMessage = message" class="btn btn-minimal btn-secondary ml-2 mt-2" title="Modify"><i class="fa fa-edit text-white"></i></button>
-                    <button v-show="checkUserRight(message.user_right)" class="btn btn-minimal btn-danger ml-2 mt-2" title="Delete"><i class="fa fa-trash text-white"></i></button>
+                    <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message.user_id)" @click="currentMessage = message" class="btn btn-minimal btn-secondary ml-2 mt-2" title="Modify"><i class="fa fa-edit text-white"></i></button>
+                    <button v-show="checkUserRight(message.user_id)" class="btn btn-minimal btn-danger ml-2 mt-2" title="Delete" @click="deleteMessage(message.id)"><i class="fa fa-trash text-white"></i></button>
                 </div>
                 <div v-bind:key="index" v-for="(childMessage, index) in message.children">
-                    <div class="date_message-child ml-5">{{ childMessage.creation_date }}</div>
+                    <div class="date_message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
                     <div class="card ml-5 reply-card">
                         <div class="d-flex justify-content-between flex-nowrap">
                             <p class="ml-2 mt-3 font-weight-bold reply-content title" v-html="'Re: ' + message.title"/>
                             <p class="mr-2 mt-3 font-italic reply-content">By {{ childMessage.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
                         </div>
-                        <p class="ml-2 reply-content" v-html="childMessage.message"/>
+                        <p class="ml-2 reply-content" v-html="$linkify(childMessage.message)"/>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-secondary ml-2 my-3" title="Modify"><i class="fa fa-edit text-white"></i></button>
-                        <button v-show="checkUserRight(message.user_right)" class="btn btn-minimal btn-danger ml-2 my-3" title="Delete"><i class="fa fa-trash text-white"></i></button>
+                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage.user_id)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-secondary ml-2 my-3" title="Modify"><i class="fa fa-edit text-white"></i></button>
+                        <button v-show="checkUserRight(childMessage.user_id)" class="btn btn-minimal btn-danger ml-2 my-3" title="Delete" @click="deleteMessage(childMessage.id)"><i class="fa fa-trash text-white"></i></button>
                     </div>
                 </div>
                 <hr>
@@ -56,6 +56,7 @@ import HeaderContent from './HeaderContent';
 import NewTopic from './NewTopic';
 import UpdateTopic from './UpdateTopic';
 import UsersList from './UsersList';
+var moment = require('moment');
 
 export default {
     data() {
@@ -67,6 +68,7 @@ export default {
             saveBtnDisabled : false,
             allMessages: [],
             usersList: [],
+            moment: moment,
         }
     },
     components: {
@@ -81,11 +83,8 @@ export default {
         //setInterval(this.getTopics, 10000);
     },
     methods: {
-        checkUserRight(message){
-            return (this.$store.getters.userIsAdmin || this.$store.getters.user.userId == message.user_id) ? true : false;
-        },
-        checkAdminRight(user_id){
-            return (this.$store.getters.userIsAdmin || this.$store.getters.user.userId == user_id) ? true : false;
+        checkUserRight(msgUserId){
+            return (this.$store.getters.userIsAdmin || this.$store.getters.user.userId == msgUserId) ? true : false;
         },
         selectParent(msg){
             this.currentParentId = (msg) ? msg.id : null;
@@ -107,6 +106,50 @@ export default {
                 }
             )
         },
+        deleteMessage(id){
+            this.$ajax("delete", "/message/" + id)
+                .then((response) => {
+                    console.log(response);
+                    this.getTopics();
+                    this.$swal({
+                        icon: 'success',
+                        title: 'Message deleted !',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+                }).catch((error) => {
+                    console.log(error);
+                    this.$swal({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Error :(',
+                    });
+                });
+        },
+        createTopic(){
+            let user = JSON.parse(localStorage.getItem('user'))
+            this.saveBtnDisabled = true;
+            var newTopic = {title: this.title, message: this.message, user_id: user.userId, id_parent: (this.parentId == null) ? "" : this.parentId};
+            this.$ajax("post", "/message", newTopic)
+                .then((response) => {
+                    console.log(response);
+                    this.saveBtnDisabled = false;
+                    this.$root.$emit('bv::hide::modal', 'modalTopic');
+                    this.$swal({
+                        icon: 'success',
+                        title: 'Message sent !',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+                }).catch((error) => {
+                    console.log(error);
+                    this.$swal({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Error :(',
+                    });
+                });
+        }        
     }
 }
 </script>
@@ -146,8 +189,12 @@ hr {
 }
 .date_message-parent {
     font-size: 0.8em;
+    margin-left: 1.5%;
+    margin-bottom: 0.5%;
 }
 .date_message-child {
     font-size: 0.8em;
+    margin-left: 8.5%;
+    margin-bottom: 0.5%;
 }
 </style>

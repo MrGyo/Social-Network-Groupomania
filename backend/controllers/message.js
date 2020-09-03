@@ -65,29 +65,29 @@ exports.getAllTopics = (req, res, next) => {
 };
 
 exports.deleteMessage = (req, res, next) => {
-  let query = 'SELECT * FROM topic WHERE id=?'
-  db.query(query, req.params.id, function (error, results, fields) {
+  let query = `SELECT * FROM topic WHERE id=${req.params.id}`
+  db.query(query, function (error, results, fields) {
       if (error) {
         return res.status(400).json(error)
       };
-      const token = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(token, config.secret);
-      const userId = decodedToken.userId;
-      const role = decodedToken.role;
-      const messageId = results[0].idUSERS;
-      if (userId !== messageId && role !== 'admin') {
+
+      let token = req.headers.authorization.split(' ')[1];
+      let decodedToken = jwt.verify(token, config.secret);
+      let userId = decodedToken.userId;
+      let role = decodedToken.role;
+      let messageUserId = results[0].user_id;
+
+      if (userId !== messageUserId && role !== 'admin') {
         return res.status(401).json({ message: 'Access denied !' })
       };
-      db.query(
-        `DELETE FROM topic WHERE id=${req.params.id}`,
-        req.params.id,
-        function (error, results, fields) {
+      let query2 = `DELETE FROM topic WHERE id=${req.params.id} OR id_parent=${req.params.id} `;
+      db.query(query2, function (error, results, fields) {
           if (error) {
             return res.status(400).json(error)
           }
           return res
             .status(200)
-            .json({ message: 'Your message has been deleted !' })
+            .json({ message: 'Your thread has been deleted !' })
         }
       );
     }
