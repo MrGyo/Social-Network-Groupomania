@@ -60,12 +60,7 @@ export default {
                         console.log(response);
                     }); 
                 });
-            this.$swal({
-                icon: 'success',
-                title: 'Welcome ' + this.login + ' !',
-                showConfirmButton: false,
-                timer: 2500
-                });
+            this.$welcomeMessage();
             setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
         },
     }
@@ -75,5 +70,9 @@ export default {
 <style scoped>
 .inner-block {
     margin-top: 10%!important;
+}
+.btn {
+  width: 100%!important;
+  font-size: 1em!important;
 }
 </style>

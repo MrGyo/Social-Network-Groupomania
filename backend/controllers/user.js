@@ -82,8 +82,8 @@ exports.getAllusers = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-    console.log(userId);
     let query = `DELETE FROM user WHERE id=${req.params.id}`;
+    //let query = "DELETE FROM user WHERE id=?";
     db.query(query, req.params.id, function (error, results, fields) {
         if (error) {
             return res.status(400).json(error)

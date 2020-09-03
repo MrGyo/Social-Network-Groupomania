@@ -49,21 +49,11 @@ export default {
                     this.$initLogin(response);
                     this.saveBtnDisabled = false;
                     setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
-                    this.$swal({
-                        icon: 'success',
-                        title: 'Welcome ' + this.login + ' !',
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
+                    this.$welcomeMessage()
                 }).catch((error) => {
-                    console.log("Utilisateur non connecté :(");
                     console.log(error.response.data.message);
                     this.saveBtnDisabled = false;
-                    this.$swal({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Utilisateur ou mot de passe incorrect :( !',
-                    });
+                    this.$errorUser()
                 });
         }
     }
@@ -73,6 +63,10 @@ export default {
 <style scoped>
 .inner-block {
     margin-top: 10%!important;
+}
+.btn {
+  width: 100%!important;
+  font-size: 1em!important;
 }
 
 </style>

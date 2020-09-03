@@ -1,48 +1,44 @@
 <template>
     <div>
-        <form>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" class="form-control form-control-lg"/>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control form-control-lg"/>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control form-control-lg"/>
-            </div>
-        </form>
-        <div class="d-flex justify-content-end flex-nowrap">
-            <div class="btn btn-supr btn btn-danger ml-2"><i class="fa fa-trash text-white mr-2"></i>Delete</div>
+        <ul>
+            <li>Username: <span class="font-weight-bold">{{ getUsername() }}</span></li>
+            <li>Email: <span class="font-weight-bold">{{ getEmail() }}</span></li>
+        </ul>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-supr btn btn-danger ml-2" @click="deleteAccount()"><i class="fa fa-trash text-white mr-2"></i>Delete</button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: [],
-    data() {
-        return {
-            txt: 'User settings'
-        }
-    },
+    props: [ 'userAccount' ],
     methods: {
         getUsername() {
-            let userInfo = JSON.parse(localStorage.getItem('user'));
-            var user = userInfo.username;
-            return user;
+            return this.$store.getters.user.username;
+        },
+        getEmail() {
+            return this.$store.getters.user.email;
+        },
+        deleteAccount() {
+            this.$ajax("delete", "/user/" + this.$store.getters.user.userId)
+                .then((response) => {
+                    console.log(response);
+                    this.$confirmDeleteAccount();
+                }).catch((error) => {
+                    console.log(error);
+                });
         }
     }
 }
 </script>
 
 <style scoped>
-.btn {
-    width : 110px!important;
-}
 .inner-block-wall {
     margin-top: 10%!important;
+}
+.btn {
+  width: 100px!important;
+  font-size: 0.9em!important;
 }
 </style>

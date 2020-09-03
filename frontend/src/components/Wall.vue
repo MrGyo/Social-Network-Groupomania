@@ -3,33 +3,37 @@
         <header-content></header-content>
         <h1 class="text-center text-dark mb-5">{{ txt }}</h1>
         <div class="d-flex justify-content-between mb-4">
-            <button class="btn btn-success" v-b-modal.modalTopic @click="selectParent(null)"><i class="fa fa-plus text-white mr-2"></i>Topic</button>
-            <button class="btn btn-dark" v-b-modal.modalUsersList><i class="fa fa-list-ul text-white mr-2"></i>Users</button>
+            <button v-b-modal.modalTopic @click="selectParent(null)" class="btn btn-success" ><i class="fa fa-plus text-white mr-2"></i>Topic</button>
+            <button v-b-modal.modalUsersList class="btn btn-dark" ><i class="fa fa-list-ul text-white mr-2"></i>Users</button>
         </div>
         <hr>
         <ul>
             <li class="mb-4 mt-4" v-bind:key="index" v-for="(message, index) in allMessages">
+                <div class="date_message-parent">{{ message.creation_date }}</div>
                 <div class="card mb-1 topic-card">
                     <div class="d-flex justify-content-between flex-nowrap">
-                        <p class="ml-2 mt-3 font-weight-bold" v-html="message.title"/>
-                        <p class="mr-2 mt-3 font-italic"><u>Author : {{ message.username }}</u></p>
+                        <p class="ml-2 mt-3 font-weight-bold title" v-html="message.title"/>
+                        <p class="mr-2 mt-3 font-italic">By {{ message.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
                     </div>
                     <p class="ml-2" v-html="message.message"/>
                 </div>
                 <div class="d-flex justify-content-end mb-3">
-                    <button v-b-modal.modalTopic class="btn btn-primary mt-2" @click="selectParent(message)"><i class="fa fa-reply text-white mr-2"></i>Reply</button>
-                    <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message)" @click="currentMessage = message" class="btn btn-secondary ml-3 mt-2"><i class="fa fa-edit text-white mr-2"></i>Modify</button>
+                    <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-minimal btn-primary mt-2" title="Reply"><i class="fa fa-reply text-white"></i></button>
+                    <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message)" @click="currentMessage = message" class="btn btn-minimal btn-secondary ml-2 mt-2" title="Modify"><i class="fa fa-edit text-white"></i></button>
+                    <button v-show="checkUserRight(message.user_right)" class="btn btn-minimal btn-danger ml-2 mt-2" title="Delete"><i class="fa fa-trash text-white"></i></button>
                 </div>
                 <div v-bind:key="index" v-for="(childMessage, index) in message.children">
+                    <div class="date_message-child ml-5">{{ childMessage.creation_date }}</div>
                     <div class="card ml-5 reply-card">
                         <div class="d-flex justify-content-between flex-nowrap">
-                            <p class="ml-2 mt-3 font-weight-bold reply-content" v-html="'Re: ' + message.title"/>
-                            <p class="mr-2 mt-3 font-italic reply-content"><u>Author : {{ childMessage.username }}</u></p>
+                            <p class="ml-2 mt-3 font-weight-bold reply-content title" v-html="'Re: ' + message.title"/>
+                            <p class="mr-2 mt-3 font-italic reply-content">By {{ childMessage.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
                         </div>
                         <p class="ml-2 reply-content" v-html="childMessage.message"/>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage)"  @click="currentMessage = childMessage" class="btn btn-secondary ml-2 my-3"><i class="fa fa-edit text-white mr-2"></i>Modify</button>
+                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-secondary ml-2 my-3" title="Modify"><i class="fa fa-edit text-white"></i></button>
+                        <button v-show="checkUserRight(message.user_right)" class="btn btn-minimal btn-danger ml-2 my-3" title="Delete"><i class="fa fa-trash text-white"></i></button>
                     </div>
                 </div>
                 <hr>
@@ -41,7 +45,7 @@
         <b-modal class="mr-5" ref="modalUpdateTopic" id="modalUpdateTopic"  @hide="getTopics()" size="lg" hide-footer centered title="Express yourself !">
             <update-topic :currentMessage="currentMessage"  />
         </b-modal>
-        <b-modal class="mr-5" ref="modalUsersList" id="modalUsersList" size="lg" hide-footer centered title="Users List">
+        <b-modal class="mr-5" ref="modalUsersList" id="modalUsersList" size="lg" hide-footer centered title="Groupomania users list :">
             <users-list :usersList="usersList"/>
         </b-modal>         
     </div>
@@ -74,11 +78,14 @@ export default {
     mounted(){
         this.$checkLogin();
         this.getTopics();
-        //setInterval(this.getTopics, 60000);
+        //setInterval(this.getTopics, 10000);
     },
     methods: {
         checkUserRight(message){
             return (this.$store.getters.userIsAdmin || this.$store.getters.user.userId == message.user_id) ? true : false;
+        },
+        checkAdminRight(user_id){
+            return (this.$store.getters.userIsAdmin || this.$store.getters.user.userId == user_id) ? true : false;
         },
         selectParent(msg){
             this.currentParentId = (msg) ? msg.id : null;
@@ -99,7 +106,7 @@ export default {
                     this.allMessages = parents;
                 }
             )
-        }
+        },
     }
 }
 </script>
@@ -109,29 +116,38 @@ ul {
     list-style-type: none;
     padding-inline-start: 0!important;
 }
-
 .btn {
-    width : 110px!important;
+  width: 100px!important;
+  font-size: 0.9em!important;
 }
-
+.btn-minimal {
+    width: 40px!important;
+    font-size: 1em!important;
+}
 .inner-block-wall {
     margin-top: 10%!important;
 }
-
 .reply-content {
     font-size: 0.9em;
 }
-
+.title {
+    color: #1a5d85!important;
+}
 .topic-card {
     border-left-color: #48abe4!important;
     border-right-color: #48abe4!important;
     border-top-color: #48abe4!important;
     border-bottom-color: #48abe4!important;
 }
-
 hr {
     height: 8px;
     border: 0;
     box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+.date_message-parent {
+    font-size: 0.8em;
+}
+.date_message-child {
+    font-size: 0.8em;
 }
 </style>

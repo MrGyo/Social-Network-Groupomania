@@ -7,7 +7,7 @@
             </div>
             <div class="form-group">
                 <label>Message</label>
-                <input type="text" class="form-control form-control-lg" v-model="message"/>
+                <textarea type="text" style="height: 200px;" class="form-control form-control-lg" v-model="message"></textarea>
             </div>
             <div div class="d-flex justify-content-end"> 
                 <button type="submit" class="btn btn-primary" v-on:click="updateTopic()" :disabled="saveBtnDisabled">Update</button>
@@ -39,6 +39,7 @@ export default {
             //let user = JSON.parse(localStorage.getItem('user'))
             this.saveBtnDisabled = true;
             var updateTopic = (!this.currentMessage.id_parent) ? {title: this.title, message: this.message} : { message: this.message};
+            console.log(this.messageId);
 
             this.$ajax("post", "/message/" + this.messageId, updateTopic)
                 .then((response) => {

@@ -10,19 +10,27 @@
                         <button class="btn btn btn-outline-dark font-weight-bold mr-2 logout" @click="logout()">Sign out</button>
                         <div class="text-dark font-weight-bold font-italic mt-1 welcome-message">"Hi {{ getUsername() }} !"</div>
                     </div>
-                    <router-link to="/useraccount"><i class="fa fa-user-circle fa-2x text-dark ml-2"></i></router-link>
+                    <i v-b-modal.modalUserAccount class="fa fa-user-circle fa-2x text-dark ml-2"></i>
                 </div>
             </div>
         </nav>
+        <b-modal class="mr-5" ref="modalUserAccount" id="modalUserAccount" size="lg" hide-footer centered title="User Account">
+            <user-account :userAccount="userAccount" />
+        </b-modal>
     </div>
 </template>
 
 <script>
+import UserAccount from './UserAccount';
 export default {
     name : 'HeaderContent',
     data() {
         return {
+            userAccount: '',
         }
+    },
+    components: {
+    UserAccount,
     },
     methods: {
         getUsername() {
@@ -30,39 +38,8 @@ export default {
             return this.$store.getters.user.username;
         },
         logout() {
-            const swalWithBootstrapButtons = this.$swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-secondary btn-confirm-delog',
-                    cancelButton: 'btn btn-primary btn-cancel-delog'
-                },
-                buttonsStyling: false
-                })
-            swalWithBootstrapButtons.fire({
-                title: 'Do you want to sign out ?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: '<i class="far fa-frown mr-2""></i>Sign out',
-                cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Cancel', 
-                reverseButtons: false
-                }).then((result) => {
-                if (result.value) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'Goodbye !',
-                        text: 'Thank you for your visit :)',
-                        icon: 'info',
-                        timer: 2000,
-                        showConfirmButton: false,
-                    })
-                    this.$clearStorage();
-                    setTimeout(() => {  this.$router.push({ name: 'login'}); }, 2000);
-                } else if (
-                    result.dismiss === this.$swal.DismissReason
-                ) {
-                    return;
-                }
-            })
+            this.$confirmLogout()
         }
-
     }
 }
 </script>

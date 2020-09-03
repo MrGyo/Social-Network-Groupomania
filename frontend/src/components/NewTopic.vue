@@ -8,7 +8,7 @@
             </div>
             <div class="form-group">
                 <label>Message</label>
-                <input type="text" class="form-control form-control-lg" v-model="message"/>
+                <textarea type="text" style="height: 200px;" class="form-control form-control-lg" v-model="message"></textarea>
             </div>
             <div div class="d-flex justify-content-end"> 
                 <button type="submit" class="btn btn-primary" v-on:click="createTopic()" :disabled="saveBtnDisabled">Send</button>
@@ -60,7 +60,8 @@ export default {
 
 <style scoped>
 .btn {
-    width : 110px!important;
+  width: 100px!important;
+  font-size: 0.9em!important;
 }
 .inner-block-wall {
     margin-top: 10%!important;
