@@ -2,7 +2,7 @@
     <div class="vue-template inner-block">
         <header-user></header-user>
         <form>
-            <h3 mb-3 style="color:#48abe4;">Sign in</h3>
+            <h3 mb-3 style="color:#091f43;">Sign in</h3>
             <div class="form-group text-center">
                 <label>Username</label>
                 <input type="text" class="form-control form-control-lg" v-model="login"/>
@@ -67,6 +67,12 @@ export default {
 .btn {
   width: 100%!important;
   font-size: 1em!important;
+}
+@media (max-width: 991.98px) { 
+    .inner-block {
+        width: 80%;
+        margin-top: 25%!important;
+    }
 }
 
 </style>

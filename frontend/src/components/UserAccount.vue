@@ -5,7 +5,7 @@
             <li>Email: <span class="font-weight-bold">{{ getEmail() }}</span></li>
         </ul>
         <div class="d-flex justify-content-end">
-            <button class="btn btn-supr btn btn-danger ml-2" @click="deleteAccount()"><i class="fa fa-trash text-white mr-2"></i>Delete</button>
+            <button class="btn btn-supr btn btn-danger ml-2" @click="deleteAccount()"><i class="fa fa-times text-white mr-2"></i>Close account</button>
         </div>
     </div>
 </template>
@@ -38,7 +38,7 @@ export default {
     margin-top: 10%!important;
 }
 .btn {
-  width: 100px!important;
+  width: 160px!important;
   font-size: 0.9em!important;
 }
 </style>

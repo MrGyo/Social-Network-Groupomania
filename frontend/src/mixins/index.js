@@ -3,6 +3,12 @@ import {DOMAIN, LOCAL_STORAGE_USER } from '@/config/env';
 
 export default {
     methods: {
+        $clearStorage(){
+            let storageToClear = localStorage.getItem(LOCAL_STORAGE_USER);
+            if (storageToClear != null) {
+                localStorage.clear(LOCAL_STORAGE_USER);
+            } 
+        },
         // On crée une méthode dédié au "signup" ET "login", on lui passe en argument : une méthode, une url et des données
         $ajax(method, url, data) {
             let user = JSON.parse(localStorage.getItem('user'))
@@ -28,18 +34,9 @@ export default {
                     console.log(error.response.data.message);
                 });
         },
-        $clearStorage(){
-            let storageToClear = localStorage.getItem(LOCAL_STORAGE_USER);
-            if (storageToClear != null) {
-                localStorage.clear(LOCAL_STORAGE_USER);
-            } 
-        },
-
         $initLogin(response) {
             console.log(response);
             this.$store.state.user = response.data;
-            console.log("Session stored");
-            console.log(this.$store.state.user);
             // On fait une setitem du user connecté dans le local storage pour une session de 24h
             localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
         },
@@ -53,10 +50,9 @@ export default {
                 this.$ajax("get", "/user/checkAuth")
                 .then((response) => {
                     console.log(response);
-                    //Recupere les données du LocalStorage qui les met vers le store
+                    //Récupère les données du LocalStorage qui les met vers le store
                     this.$store.state.user = JSON.parse(storageDataUser);
                 }).catch((error) => {
-                    //alert("La méthode login n'a pas fonctonné :)");
                     console.log(error);
                     this.$errorUser();
                     this.$router.push({  name: "home"});
@@ -66,7 +62,7 @@ export default {
         $welcomeMessage() {
             this.$swal({
                 icon: 'success',
-                title: 'Welcome ' + this.login + '!',
+                title: 'Welcome ' + this.login + ' !',
                 showConfirmButton: false,
                 timer: 2500
             });
@@ -75,14 +71,14 @@ export default {
             this.$swal({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Incorrect username or password :(!',
+                text: 'Incorrect username or password :( !',
             });
         },
         $errorAccess() {
             this.$swal({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Access denied :(!',
+                text: 'Access denied :( !',
             });
         },
         $confirmLogout() {
@@ -94,7 +90,7 @@ export default {
                 buttonsStyling: false
                 })
             swalWithBootstrapButtons.fire({
-                title: 'Do you want to sign out?',
+                title: 'Do you want to sign out ?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '<i class="far fa-frown mr-2""></i>Sign out',
@@ -105,7 +101,7 @@ export default {
                     swalWithBootstrapButtons.fire({
                         title: 'Goodbye !',
                         text: 'Thank you for your visit :)',
-                        icon: 'info',
+                        icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
                     })
@@ -127,10 +123,10 @@ export default {
                 buttonsStyling: false
                 })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure you want to delete your account?',
+                title: 'Are you sure you want to close your account?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: '<i class="far fa-frown mr-2""></i>Delete',
+                confirmButtonText: '<i class="far fa-frown mr-2""></i>Close account',
                 cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Cancel', 
                 reverseButtons: false
                 }).then((result) => {
@@ -151,58 +147,28 @@ export default {
                 }
             })
         },
-        $confirmDeleteAdmin() {
-            const swalWithBootstrapButtons = this.$swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-secondary btn-confirm-delog',
-                    cancelButton: 'btn btn-primary btn-cancel-delog'
-                },
-                buttonsStyling: false
-                })
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure you want to delete this message?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: '<i class="far fa-frown mr-2""></i>Delete',
-                cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Cancel', 
-                reverseButtons: false
-                }).then((result) => {
-                if (result.value) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'Message deleted!',
-                        icon: 'success',
-                        timer: 2000,
-                        showConfirmButton: false,
-                    })
-                } else if (
-                    result.dismiss === this.$swal.DismissReason
-                ) {
-                    return;
-                }
-            })
-        },
         $linkify(inputText) {
             var replacedText, replacePattern1, replacePattern2, replacePattern3;
         
-            //URLs starting with http://, https://, or ftp://
+            //URLs avec http://, https://, ou ftp://
             replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
             replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
         
-            //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+            //URLs avec "www." (sans // avant ça, ou redirige vers ceux du dessus
             replacePattern2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
             replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
         
-            //Change email addresses to mailto:: links.
+            //Chagne l'email mail:to en lien cliquable
             replacePattern3 = /(([a-zA-Z0-9\-_.])+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
             replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
         
             return replacedText;
         },
-        $checkFieldIdentity(id, textErreur){
-            let fieldToControl = document.getElementById(id).value;
-            let regexFieldToControl =  /^[A-Za-zéèàêë-]+$/;
-            if (!regexFieldToControl .test(fieldToControl) || fieldToControl.length <= 1) {
-                const swalWithBootstrapButtons = this.$swal.mixin.mixin({
+        $checkFieldUsername(username){
+            let usernameToControl = username;
+            let regexUsernameToControl =  /^[A-Za-zéèàêë-]+$/;
+            if (!regexUsernameToControl .test(usernameToControl) || usernameToControl.length <= 1) {
+                const swalWithBootstrapButtons = this.$swal.mixin({
                     customClass: {
                       confirmButton: 'btn btn-secondary btn-ok',
                     },
@@ -210,7 +176,31 @@ export default {
                   })
                   swalWithBootstrapButtons.fire({
                     title: 'Oops!',
-                    text: textErreur,
+                    text: 'Invalid username',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                  }).then((result) => {
+                    if (result.value) {
+                        return;
+                    }
+                  })
+                return false;
+            }
+            return true;
+        },
+        $checkFieldEmail(email){
+            let emailToControl = email;
+            let regexEmailToControl = /.+@.+\..+/;
+            if (!regexEmailToControl.test(emailToControl)) {
+                const swalWithBootstrapButtons = this.$swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-secondary btn-ok',
+                    },
+                    buttonsStyling: false
+                  })
+                  swalWithBootstrapButtons.fire({
+                    title: 'Oops!',
+                    text: 'Invalid email',
                     icon: 'error',
                     confirmButtonText: 'OK',
                   }).then((result) => {
@@ -221,7 +211,30 @@ export default {
                 return false;
             }
             return true;
-        }
+        },
+        $checkFieldPassword(password){
+            let passwordToControl = password;
+            if (passwordToControl.length <= 5) {
+                const swalWithBootstrapButtons = this.$swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-secondary btn-ok',
+                    },
+                    buttonsStyling: false
+                  })
+                  swalWithBootstrapButtons.fire({
+                    title: 'Oops!',
+                    text: 'Invalid password',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                  }).then((result) => {
+                    if (result.value) {
+                      return;
+                    }
+                  })
+                return false;
+            }
+            return true;
+        },
         
     }
 }
