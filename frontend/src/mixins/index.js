@@ -62,7 +62,7 @@ export default {
         $welcomeMessage() {
             this.$swal({
                 icon: 'success',
-                title: 'Welcome ' + this.login + ' !',
+                title: 'Bonjour ' + this.login + ' !',
                 showConfirmButton: false,
                 timer: 2500
             });
@@ -71,14 +71,14 @@ export default {
             this.$swal({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Incorrect username or password :( !',
+                text: 'Pseudo ou mot de passe incorrect !',
             });
         },
         $errorAccess() {
             this.$swal({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Access denied :( !',
+                text: 'Accès refusé !',
             });
         },
         $confirmLogout() {
@@ -90,17 +90,17 @@ export default {
                 buttonsStyling: false
                 })
             swalWithBootstrapButtons.fire({
-                title: 'Do you want to sign out ?',
+                title: 'Souhaitez-vous vous déconnecter ?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: '<i class="far fa-frown mr-2""></i>Sign out',
-                cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Cancel', 
+                confirmButtonText: '<i class="far fa-frown mr-2""></i>Déconnexion',
+                cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Annuler', 
                 reverseButtons: false
                 }).then((result) => {
                 if (result.value) {
                     swalWithBootstrapButtons.fire({
-                        title: 'Goodbye !',
-                        text: 'Thank you for your visit :)',
+                        title: 'A bientôt !',
+                        text: 'Merci pour votre visite',
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
@@ -123,17 +123,17 @@ export default {
                 buttonsStyling: false
                 })
             swalWithBootstrapButtons.fire({
-                title: 'Are you sure you want to close your account?',
+                title: 'Êtes-vous sûr de vouloir fermer votre compte ?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: '<i class="far fa-frown mr-2""></i>Close account',
-                cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Cancel', 
+                confirmButtonText: '<i class="far fa-frown mr-2""></i>Fermer le compte',
+                cancelButtonText: '<i class="far fa-smile-beam mr-2""></i>Annuler', 
                 reverseButtons: false
                 }).then((result) => {
                 if (result.value) {
                     swalWithBootstrapButtons.fire({
-                        title: 'Goodbye!',
-                        text: 'Thank you for your visit :)',
+                        title: 'Au revoir !',
+                        text: 'Merci pour votre visite',
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
@@ -170,13 +170,13 @@ export default {
             if (!regexUsernameToControl .test(usernameToControl) || usernameToControl.length <= 1) {
                 const swalWithBootstrapButtons = this.$swal.mixin({
                     customClass: {
-                      confirmButton: 'btn btn-secondary btn-ok',
+                      confirmButton: 'btn btn-secondary',
                     },
                     buttonsStyling: false
                   })
                   swalWithBootstrapButtons.fire({
                     title: 'Oops!',
-                    text: 'Invalid username',
+                    text: 'Votre pseudo doit comporter plus d\'une lettre',
                     icon: 'error',
                     confirmButtonText: 'OK',
                   }).then((result) => {
@@ -200,7 +200,7 @@ export default {
                   })
                   swalWithBootstrapButtons.fire({
                     title: 'Oops!',
-                    text: 'Invalid email',
+                    text: 'Entrez un format d\'email valide : johnDoe@gmail.com',
                     icon: 'error',
                     confirmButtonText: 'OK',
                   }).then((result) => {
@@ -223,7 +223,7 @@ export default {
                   })
                   swalWithBootstrapButtons.fire({
                     title: 'Oops!',
-                    text: 'Invalid password',
+                    text: 'Entrez un mot de passe valide',
                     icon: 'error',
                     confirmButtonText: 'OK',
                   }).then((result) => {
@@ -235,6 +235,5 @@ export default {
             }
             return true;
         },
-        
     }
 }

@@ -2,7 +2,7 @@
     <div>
         <form>
             <div v-show="!currentMessage.id_parent" class="form-group">
-                <label>Title</label>
+                <label>Titre</label>
                 <input type="text" class="form-control form-control-lg" v-model="title"/>
             </div>
             <div class="form-group">
@@ -10,7 +10,7 @@
                 <textarea type="text" style="height: 200px;" class="form-control form-control-lg" v-model="message"></textarea>
             </div>
             <div div class="d-flex justify-content-end"> 
-                <button type="submit" class="btn btn-primary" v-on:click="updateTopic()" :disabled="saveBtnDisabled">Update</button>
+                <button type="submit" class="btn btn-primary" v-on:click="updateTopic()" :disabled="saveBtnDisabled">Envoyer</button>
             </div>
         </form>
     </div>
@@ -48,7 +48,7 @@ export default {
                     this.$root.$emit('bv::hide::modal', 'modalUpdateTopic');
                     this.$swal({
                         icon: 'success',
-                        title: 'Message sent !',
+                        title: 'Message envoyé !',
                         showConfirmButton: false,
                         timer: 1500
                         });
@@ -57,7 +57,7 @@ export default {
                     this.$swal({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Error :(',
+                            text: 'Erreur',
                     });
                 });
         }

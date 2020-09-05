@@ -7,10 +7,10 @@
                 </a>
                 <ul class="nav navbar-nav flex-row float-right">
                 <li class="nav-item">
-                    <router-link class="nav-link pr-3 text-dark font-weight-bold mb-1 connexion" to="/login">Sign in</router-link>
+                    <router-link class="nav-link pr-3 text-dark font-weight-bold mb-1 connexion" to="/login">Connexion</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="btn btn-outline-dark font-weight-bold mb-1" to="/signup">Sign up</router-link>
+                    <router-link class="btn btn-outline-dark font-weight-bold mb-1" to="/signup">S'enregistrer</router-link>
                 </li>
                 </ul>
             </div>

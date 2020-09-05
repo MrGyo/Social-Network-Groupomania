@@ -1,55 +1,55 @@
 <template>
     <div class="vue-template inner-block-wall">
         <header-content></header-content>
-        <h1 class="text-center text-dark mb-5">{{ txt }}</h1>
+        <!--<h1 class="text-center text-dark font-weight-bold mb-5">{{ txt }}</h1>-->
         <div class="d-flex justify-content-between mb-4">
-            <button v-b-modal.modalTopic @click="selectParent(null)" class="btn btn-success"><i class="fa fa-plus text-white mr-2"></i>Topic</button>
-            <button v-b-modal.modalUsersList class="btn btn-dark" ><i class="fa fa-list-ul text-white mr-2"></i>Users</button>
+            <button v-b-modal.modalTopic @click="selectParent(null)" class="btn btn-success"><i class="fa fa-plus text-white mr-2"></i>Sujet</button>
+            <button v-b-modal.modalUsersList class="btn btn-dark" ><i class="fa fa-list-ul text-white mr-2"></i>Membres</button>
         </div>
         <hr>
         <ul>
             <li class="mb-4 mt-4" v-bind:key="index" v-for="(message, index) in allMessages">
-                <div class="date_message-parent">{{ moment(message.creation_date).fromNow() }}</div>
+                <div class="date_message-parent">{{ moment(message.creation_date).fromNow() }}</div> 
                 <div class="card mb-1 topic-card">
                     <div class="d-flex justify-content-between flex-nowrap">
                         <p class="ml-2 mt-3 font-weight-bold title-parent" v-html="message.title"/>
-                        <p class="mr-2 mt-3 font-italic author-message">By {{ message.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
+                        <p class="mr-2 mt-3 font-italic author-message">Par {{ message.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
                     </div>
-                    <p class="ml-2" v-html="$linkify(message.message)"/>
+                    <p class="ml-2 mr-2 text-justify" v-html="$linkify(message.message)"/>
                 </div>
-                <div class="d-flex justify-content-end mb-3">
-                    <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-minimal btn-primary mt-2" title="Reply"><i class="fa fa-reply text-white"></i></button>
-                    <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message.user_id)" @click="currentMessage = message" class="btn btn-minimal btn-secondary ml-2 mt-2" title="Modify"><i class="fa fa-edit text-white"></i></button>
-                    <button v-show="checkUserRight(message.user_id)" class="btn btn-minimal btn-danger ml-2 mt-2" title="Delete" @click="deleteMessage(message.id)"><i class="fa fa-trash text-white"></i></button>
+                <div class="d-flex justify-content-end mb-3 btn-list">
+                    <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-minimal btn-primary mt-2" title="Répondre"><i class="fa fa-reply text-white"></i></button>
+                    <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message.user_id)" @click="currentMessage = message" class="btn btn-minimal btn-secondary ml-2 mt-2" title="Modifier"><i class="fa fa-edit text-white"></i></button>
+                    <button v-show="checkUserRight(message.user_id)" class="btn btn-minimal btn-danger ml-2 mt-2" title="Supprimer" @click="deleteMessage(message.id)"><i class="fa fa-trash text-white"></i></button>
                 </div>
                 <div v-bind:key="index" v-for="(childMessage, index) in message.children">
                     <div class="date_message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
                     <div class="card ml-5 reply-card">
                         <div class="d-flex justify-content-between flex-nowrap">
                             <p class="ml-2 mt-3 font-weight-bold reply-content title-child" v-html="'Re: ' + message.title"/>
-                            <p class="mr-2 mt-3 font-italic reply-content">By {{ childMessage.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
+                            <p class="mr-2 mt-3 font-italic reply-content">Par {{ childMessage.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
                         </div>
-                        <p class="ml-2 reply-content" v-html="$linkify(childMessage.message)"/>
+                        <p class="ml-2 mr-2 text-justify reply-content" v-html="$linkify(childMessage.message)"/>
                     </div>
-                    <div class="d-flex justify-content-end mb-1">
-                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage.user_id)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-secondary ml-2 my-3" title="Modify"><i class="fa fa-edit text-white"></i></button>
-                        <button v-show="checkUserRight(childMessage.user_id)" class="btn btn-minimal btn-danger ml-2 my-3" title="Delete" @click="deleteMessage(childMessage.id)"><i class="fa fa-trash text-white"></i></button>
+                    <div class="d-flex justify-content-end mb-1 btn-list">
+                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage.user_id)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-secondary ml-2 my-3" title="Modifier"><i class="fa fa-edit text-white"></i></button>
+                        <button v-show="checkUserRight(childMessage.user_id)" class="btn btn-minimal btn-danger ml-2 my-3" title="Supprimer" @click="deleteMessage(childMessage.id)"><i class="fa fa-trash text-white"></i></button>
                     </div>
                 </div>
-                <hr>
             </li>
+            <hr>
             <div class="d-flex justify-content-center top-wall" @click="scrollToTop()">
                 <i class="fa fa-caret-up fa-3x text-dark top-wall-btn"></i>
             </div>
         </ul>
         
-        <b-modal class="mr-5" ref="modalTopic" id="modalTopic"  @hide="getTopics()" size="lg" hide-footer centered title="Express yourself !">
+        <b-modal class="mr-5" ref="modalTopic" id="modalTopic"  @hide="getTopics()" size="lg" hide-footer centered title="Exprimez-vous !">
             <new-topic :parentId="currentParentId" :parentTitle="currentParentTitle"  />
         </b-modal>
-        <b-modal class="mr-5" ref="modalUpdateTopic" id="modalUpdateTopic"  @hide="getTopics()" size="lg" hide-footer centered title="Express yourself !">
+        <b-modal class="mr-5" ref="modalUpdateTopic" id="modalUpdateTopic"  @hide="getTopics()" size="lg" hide-footer centered title="Exprimez-vous !">
             <update-topic :currentMessage="currentMessage"  />
         </b-modal>
-        <b-modal class="mr-5" ref="modalUsersList" id="modalUsersList" size="lg" hide-footer centered title="Groupomania users list :">
+        <b-modal class="mr-5" ref="modalUsersList" id="modalUsersList" size="lg" hide-footer centered title="Liste des membres Groupomania :">
             <users-list :usersList="usersList"/>
         </b-modal>         
     </div>
@@ -65,7 +65,7 @@ var moment = require('moment');
 export default {
     data() {
         return {
-            txt: 'Another brick in the wall ?',
+            txt: 'Groupomania Network',
             currentParentId: '',
             currentParentTitle: '',
             currentMessage : [],
@@ -120,14 +120,14 @@ export default {
                     this.getTopics();
                     this.$swal({
                         icon: 'success',
-                        title: 'Message deleted !',
+                        title: 'Message supprimé !',
                         showConfirmButton: false,
                         timer: 1500
                         });
                 }).catch((error) => {
                     console.log(error);
                     this.$swal({
-                            icon: 'error',
+                            icon: 'erreur',
                             title: 'Oops...',
                             text: 'Error :(',
                     });
@@ -144,14 +144,14 @@ export default {
                     this.$root.$emit('bv::hide::modal', 'modalTopic');
                     this.$swal({
                         icon: 'success',
-                        title: 'Message sent !',
+                        title: 'Message envoyé !',
                         showConfirmButton: false,
                         timer: 1500
                         });
                 }).catch((error) => {
                     console.log(error);
                     this.$swal({
-                            icon: 'error',
+                            icon: 'erreur',
                             title: 'Oops...',
                             text: 'Error :(',
                     });
@@ -162,6 +162,15 @@ export default {
 </script>
 
 <style scoped>
+.topic-card {
+    border-radius: 10px!important;
+    background-color:#f3f2f2!important;
+    z-index: 1!important;
+}
+.reply-card {
+    border-radius: 10px!important;
+    
+}
 .author-message {
     color: #091f43!important;
 }
@@ -176,13 +185,21 @@ ul {
     border: 2px solid black;
     border-radius: 10px;
 }*/
+.btn-list {
+    margin-right: 1%;
+    margin-top: -4.5%;
+    position: relative;
+    z-index: 2!important;
+}
 .btn {
-  width: 100px!important;
+  width: 120px!important;
   font-size: 0.9em!important;
 }
 .btn-minimal {
     width: 40px!important;
     font-size: 1em!important;
+    border-radius: 100%;
+    border: 2px solid #d5d4d4;
 }
 .inner-block-wall {
     margin-top: 10%!important;
@@ -195,9 +212,7 @@ ul {
     color: #d1515a!important;
 }
 hr {
-    height: 5px;
-    border: 0;
-    box-shadow: inset 0 12px 12px -12px #091f43;
+    border-top: 3px double #8b8b8c;
 }
 .date_message-parent {
     font-size: 0.8em;

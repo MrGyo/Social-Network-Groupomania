@@ -2,23 +2,23 @@
     <div class="vue-template inner-block">
         <header-user></header-user>
         <form>
-            <h3 class="mb-10" style="color:#091f43;">Create your account :)</h3>
+            <h3 class="mb-10" style="color:#091f43;">Créer votre compte :)</h3>
             <div class="form-group text-center">
-                <label>Username</label>
-                <input type="text" class="form-control form-control-lg" v-model="login"/>
+                <label>Pseudo</label>
+                <input v-on:click="unlockButton();" type="text" class="form-control form-control-lg" v-model="login"/>
             </div>
             <div class="form-group text-center">
-                <label>Email</label>
-                <input type="email" class="form-control form-control-lg" v-model="email"/>
+                <label>Adresse email</label>
+                <input v-on:click="unlockButton();" type="email" class="form-control form-control-lg" v-model="email"/>
             </div>
             <div class="form-group text-center">
-                <label>Password</label>
-                <input type="password" class="form-control form-control-lg" v-model="password" />
+                <label>Mot de passe</label>
+                <input v-on:click="unlockButton();" type="password" class="form-control form-control-lg" v-model="password"/>
             </div>
-            <button type="submit" v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Confirm</button>
+            <button type="submit" v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
             <p class="forgot-password text-center">
-                Already registered ?
-                <router-link :to="{name: 'login'}"><span style="color:#d1515a;">Sign in</span></router-link>
+                Déjà enregistré ?
+                <router-link :to="{name: 'login'}"><span style="color:#d1515a;">Connectez-vous</span></router-link>
             </p>
         </form>
     </div>
@@ -39,13 +39,19 @@ export default {
     'header-user': HeaderUser
     },
     methods: {
+        unlockButton() {
+            this.saveBtnDisabled = false;
+        },
         // Méthode appelée au moment de la création du compte utilisateur au moment du click sur le bouton
         createAccount(){
             // Gestion de la désactivation du bouton au moment de la création du compte
             this.saveBtnDisabled = true;
             // On contrôle les données du formulaire
-            if (!this.$checkFieldUsername(this.login) || !this.$checkFieldEmail(this.email) || !this.$checkFieldPassword(this.password)) 
-                return;
+                if (!this.$checkFieldUsername(this.login) || !this.$checkFieldEmail(this.email) || !this.$checkFieldPassword(this.password)) {
+                    //this.saveBtnDisabled = false;
+                   return 
+                }
+            // On clear le storage pour l'enregistrement du nouvel utilsateur dans le local storage
             this.$clearStorage();
             // On crée un objet contenant l'ensemble des données de l'utlisateur au moment de l'enregistrement
             var newUser = {username: this.login, email: this.email, password: this.password};
@@ -62,7 +68,6 @@ export default {
             this.$welcomeMessage();
             setTimeout(() => {  this.$router.push({ name: 'wall'}); }, 2500);
         },
-        
     }
 }
 </script>
@@ -80,5 +85,9 @@ export default {
         width: 80%;
         margin-top: 25%!important;
     }
+}
+.swal-modal {
+  background-color: rgba(63,255,106,0.69)!important;
+  border: 3px solid white;
 }
 </style>

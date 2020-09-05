@@ -11,8 +11,9 @@
             </li>-->
             <li v-bind:key="index" v-for="(user, index) in allUsers">
                 <div class="card mb-1">
-                    <div class="d-flex justify-content-between flex-nowrap">
-                        <p v-bind:id="index" class="ml-2 mt-3"><i class="fa fa-user-circle text-dark mr-2"></i><span class="font-weight-bold">Username:</span> {{ user.username }}, <span class="font-weight-bold">Email:</span><a :href="'mailto: ' + user.email">{{ user.email }}</a></p>
+                    <div class="d-flex flex-column">
+                        <p v-bind:id="index" class="ml-2 mt-3"><i class="fa fa-user-circle text-dark mr-2"></i><span class="font-weight-bold">Pseudo:</span> {{ user.username }}</p>
+                        <p class="contact"><span class="font-weight-bold">Adresse email:</span> <a :href="'mailto: ' + user.email">{{ user.email }}</a></p>
                     </div>
                 </div>
             </li>
@@ -71,5 +72,11 @@ ul {
     font-size: 0.9em!important;
     top:10px;
     right: 10px;
+}
+.card {
+    border: none!important;
+}
+.contact {
+    padding-left: 4%;
 }
 </style>

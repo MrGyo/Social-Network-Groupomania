@@ -2,16 +2,16 @@
     <div class="vue-template inner-block">
         <header-user></header-user>
         <form>
-            <h3 mb-3 style="color:#091f43;">Sign in</h3>
+            <h3 mb-3 style="color:#091f43;">Connexion</h3>
             <div class="form-group text-center">
-                <label>Username</label>
+                <label>Pseudo</label>
                 <input type="text" class="form-control form-control-lg" v-model="login"/>
             </div>
             <div class="form-group text-center">
-                <label>Password</label>
+                <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Confirm</button>
+            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
             <div class="social-icons">
                 <ul>
                     <li><a href="#"><i class="fa fa-google text-dark"></i></a></li>

@@ -2,7 +2,7 @@
     <div>
         <form>
             <div class="form-group">
-                <label>Title</label>
+                <label>Titre</label>
                 <input v-if="parentId == null" type="text" class="form-control form-control-lg" v-model="title"/>
                 <input v-else type="text" class="form-control form-control-lg" v-model="parentTitle" disabled/>
             </div>
@@ -11,7 +11,7 @@
                 <textarea type="text" style="height: 200px;" class="form-control form-control-lg" v-model="message"></textarea>
             </div>
             <div div class="d-flex justify-content-end"> 
-                <button type="submit" class="btn btn-primary" v-on:click="createTopic()" :disabled="saveBtnDisabled">Send</button>
+                <button type="submit" class="btn btn-primary" v-on:click="createTopic()" :disabled="saveBtnDisabled">Envoyer</button>
             </div>
         </form>
     </div>

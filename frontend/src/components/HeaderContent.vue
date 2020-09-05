@@ -7,14 +7,14 @@
                 </a>
                 <div class="nav navbar-nav flex-row float-right d-flex justif-content-end">
                     <div class="d-flex">
-                        <button class="btn btn btn-outline-dark font-weight-bold mr-2 logout" @click="logout()">Sign out</button>
-                        <div class="text-dark font-weight-bold font-italic mt-1 welcome-message">"Hi {{ getUsername() }} !"</div>
+                        <button class="btn btn btn-outline-dark font-weight-bold mr-2 logout" @click="logout()">Déconnexion</button>
+                        <div class="text-dark font-weight-bold font-italic mt-1 welcome-message">"Bonjour {{ getUsername() }} !"</div>
                     </div>
                     <i v-b-modal.modalUserAccount class="fa fa-user-circle fa-2x text-dark ml-2"></i>
                 </div>
             </div>
         </nav>
-        <b-modal class="mr-5" ref="modalUserAccount" id="modalUserAccount" size="lg" hide-footer centered title="User Account">
+        <b-modal class="mr-5" ref="modalUserAccount" id="modalUserAccount" size="lg" hide-footer centered title="Données du compte">
             <user-account :userAccount="userAccount" />
         </b-modal>
     </div>
@@ -50,6 +50,6 @@ export default {
 }
 .logout {
     font-size: 0.8em!important;
-    width: 80px!important;
+    width: 120px!important;
 }
 </style>

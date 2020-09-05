@@ -8,9 +8,13 @@ import axios from 'axios'
 import VueSweetalert2 from 'vue-sweetalert2';
 import BootstrapVue from 'bootstrap-vue';
 
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import '@/assets/css/main.css'
+import '@/assets/css/main.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
