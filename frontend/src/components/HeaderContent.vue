@@ -8,9 +8,9 @@
                 <div class="nav navbar-nav flex-row float-right d-flex justif-content-end">
                     <div class="d-flex">
                         <button class="btn btn btn-outline-dark font-weight-bold mr-2 logout" @click="logout()">Déconnexion</button>
-                        <div class="text-dark font-weight-bold font-italic mt-1 welcome-message">"Bonjour {{ getUsername() }} !"</div>
+                        <div class="text-dark font-weight-bold font-italic mt-1 pt-1 welcome-message">"Bonjour {{ getUsername() }} !"</div>
                     </div>
-                    <i v-b-modal.modalUserAccount class="fa fa-user-circle fa-2x text-dark ml-2"></i>
+                    <i v-b-modal.modalUserAccount class="fa fa-user-circle fa-2x text-dark pt-1 ml-2"></i>
                 </div>
             </div>
         </nav>
@@ -51,5 +51,12 @@ export default {
 .logout {
     font-size: 0.8em!important;
     width: 120px!important;
+    /*color: #091f44!important;*/
 }
+/*.logout:hover {
+    font-size: 0.8em!important;
+    width: 120px!important;
+    background: #091f44!important;
+    border:#091f44!important;
+}*/
 </style>

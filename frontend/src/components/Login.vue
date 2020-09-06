@@ -11,14 +11,11 @@
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
-            <div class="social-icons">
-                <ul>
-                    <li><a href="#"><i class="fa fa-google text-dark"></i></a></li>
-                    <li><a href="#"><i class="fa fa-facebook text-dark"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter text-dark"></i></a></li>
-                </ul>
-            </div>
+            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-validate btn-dark btn-lg btn-block my-4">Valider</button>
+            <p class="forgot-password text-center">
+                Besoin d'un compte ?
+                <router-link :to="{name: 'signup'}"><span style="color:#d1515a;">Inscrivez-vous</span></router-link>
+            </p>
         </form>
     </div>
 </template>
@@ -68,11 +65,28 @@ export default {
   width: 100%!important;
   font-size: 1em!important;
 }
+/*.btn-validate {
+  background-color: #091f44!important;
+  border-color: #091f44!important;
+  border-radius: 100px;
+}
+.btn-validate:hover {
+  background-color: #051024!important;
+  border-color: #051024!important;
+  border-radius: 100px;
+}
+label {
+    color: #091f44!important;
+}
+p {
+    color: #091f44!important;
+}*/
 @media (max-width: 991.98px) { 
     .inner-block {
         width: 80%;
         margin-top: 25%!important;
     }
 }
+
 
 </style>

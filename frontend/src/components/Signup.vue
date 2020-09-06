@@ -15,7 +15,7 @@
                 <label>Mot de passe</label>
                 <input v-on:click="unlockButton();" type="password" class="form-control form-control-lg" v-model="password"/>
             </div>
-            <button type="submit" v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-dark btn-lg btn-block my-4">Valider</button>
+            <button type="submit" v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-validate btn-dark btn-lg btn-block my-4">Valider</button>
             <p class="forgot-password text-center">
                 Déjà enregistré ?
                 <router-link :to="{name: 'login'}"><span style="color:#d1515a;">Connectez-vous</span></router-link>
@@ -80,14 +80,26 @@ export default {
   width: 100%!important;
   font-size: 1em!important;
 }
+/*.btn-validate {
+  background-color: #091f44!important;
+  border-color: #091f44!important;
+  border-radius: 100px;
+}
+.btn-validate:hover {
+  background-color: #051024!important;
+  border-color: #051024!important;
+  border-radius: 100px;
+}
+label {
+    color: #091f44!important;
+}
+p {
+    color: #091f44!important;
+}*/
 @media (max-width: 991.98px) { 
     .inner-block {
         width: 80%;
         margin-top: 25%!important;
     }
-}
-.swal-modal {
-  background-color: rgba(63,255,106,0.69)!important;
-  border: 3px solid white;
 }
 </style>

@@ -41,14 +41,14 @@ export default {
                     this.$root.$emit('bv::hide::modal', 'modalTopic');
                     this.$swal({
                         icon: 'success',
-                        title: 'Message sent !',
+                        title: 'Message posté !',
                         showConfirmButton: false,
                         timer: 1500
                         });
                 }).catch((error) => {
                     console.log(error);
                     this.$swal({
-                            icon: 'error',
+                            icon: 'erreur',
                             title: 'Oops...',
                             text: 'Error :(',
                     });
@@ -65,5 +65,15 @@ export default {
 }
 .inner-block-wall {
     margin-top: 10%!important;
+}
+.btn-primary {
+    background-color: #283855!important;
+    border-color: #283855!important;
+    border-radius: 100px;
+}
+.btn-primary:hover {
+    background-color: #1e2a3f!important;
+    background-color: #1e2a3f!important;
+    border-radius: 100px;
 }
 </style>
