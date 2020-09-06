@@ -2,7 +2,7 @@
     <div class="vue-template inner-block">
         <header-user></header-user>
         <form>
-            <h3 mb-3 style="color:#091f43;">Connexion</h3>
+            <h3 mb-3>Connexion</h3>
             <div class="form-group text-center">
                 <label>Pseudo</label>
                 <input type="text" class="form-control form-control-lg" v-model="login"/>

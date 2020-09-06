@@ -3,12 +3,17 @@ import {DOMAIN, LOCAL_STORAGE_USER } from '@/config/env';
 
 export default {
     methods: {
+
+        //-- Méthodes dédiées au login et signup --//
+
+        // On crée une méthode pour vider le local storage
         $clearStorage(){
             let storageToClear = localStorage.getItem(LOCAL_STORAGE_USER);
             if (storageToClear != null) {
                 localStorage.clear(LOCAL_STORAGE_USER);
             } 
         },
+
         // On crée une méthode dédié au "signup" ET "login", on lui passe en argument : une méthode, une url et des données
         $ajax(method, url, data) {
             let user = JSON.parse(localStorage.getItem('user'))
@@ -23,24 +28,26 @@ export default {
                 headers: auth
             })
         },
-        // On crée une méthode login qui va être utilisée dans la méthode signup afin que l'utilisateur soit connecté après son enregistrement
+
+        // On crée une méthode login qui va être utilisée dans la méthode signup afin que l'utilisateur soit connecté automatiquement après son enregistrement
         $login(user) {
             // On retourne les résultats de la méthode ajax
            return this.$ajax("post", "/user/login/", user)
                 .then((response) => {
                     this.$initLogin(response);
                 }).catch((error) => {
-                    //alert("La méthode login n'a pas fonctonné :)");
                     console.log(error.response.data.message);
                 });
         },
+
+        // On fait un setitem du user dans le local storage pour une session de 24h
         $initLogin(response) {
             console.log(response);
             this.$store.state.user = response.data;
-            // On fait une setitem du user connecté dans le local storage pour une session de 24h
             localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
         },
 
+        // On contrôle qu'un user soit bien connecté pour l'accès au forum
         $checkLogin() {
             let storageDataUser = localStorage.getItem(LOCAL_STORAGE_USER);
             if (!storageDataUser) {
@@ -59,6 +66,9 @@ export default {
                 });
             }
         },
+
+        //-- Méthodes dédiées aux messages d'erreur Swal --//
+
         $welcomeMessage() {
             this.$swal({
                 icon: 'success',
@@ -67,6 +77,7 @@ export default {
                 timer: 2500
             });
         },
+
         $errorUser() {
             this.$swal({
                 icon: 'error',
@@ -74,6 +85,7 @@ export default {
                 text: 'Pseudo ou mot de passe incorrect !',
             });
         },
+
         $errorAccess() {
             this.$swal({
                 icon: 'error',
@@ -81,6 +93,7 @@ export default {
                 text: 'Accès refusé !',
             });
         },
+
         $confirmLogout() {
             const swalWithBootstrapButtons = this.$swal.mixin({
                 customClass: {
@@ -114,7 +127,8 @@ export default {
                 }
             })
         },
-        $confirmDeleteAccount() {
+
+        /*$confirmDeleteAccount() {
             const swalWithBootstrapButtons = this.$swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-secondary btn-confirm-delog',
@@ -141,29 +155,15 @@ export default {
                     this.$clearStorage();
                     setTimeout(() => {  this.$router.push({ name: 'login'}); }, 2000);
                 } else if (
-                    result.dismiss === this.$swal.DismissReason
+                    result.dismiss === this.$swal.DismissReason.cancel
                 ) {
                     return;
                 }
             })
-        },
-        $linkify(inputText) {
-            var replacedText, replacePattern1, replacePattern2, replacePattern3;
+        },*/
         
-            //URLs avec http://, https://, ou ftp://
-            replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
-            replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-        
-            //URLs avec "www." (sans // avant ça, ou redirige vers ceux du dessus
-            replacePattern2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
-            replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-        
-            //Chagne l'email mail:to en lien cliquable
-            replacePattern3 = /(([a-zA-Z0-9\-_.])+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
-            replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
-        
-            return replacedText;
-        },
+        //-- Méthodes dédiées au contrôle du formulaire --//
+
         $checkFieldUsername(username){
             let usernameToControl = username;
             let regexUsernameToControl =  /^[A-Za-zéèàêë-]+$/;
@@ -188,6 +188,7 @@ export default {
             }
             return true;
         },
+
         $checkFieldEmail(email){
             let emailToControl = email;
             let regexEmailToControl = /.+@.+\..+/;
@@ -212,6 +213,7 @@ export default {
             }
             return true;
         },
+
         $checkFieldPassword(password){
             let passwordToControl = password;
             if (passwordToControl.length <= 5) {
@@ -234,6 +236,26 @@ export default {
                 return false;
             }
             return true;
+        },
+
+        //-- Méthodes dédiées à la gestion des urls dans les messages postés --//
+        
+        $linkify(inputText) {
+            var replacedText, replacePattern1, replacePattern2, replacePattern3;
+        
+            //URLs avec http://, https://, ou ftp://
+            replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
+            replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+        
+            //URLs avec "www." (sans // avant ça, ou redirige vers ceux du dessus
+            replacePattern2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
+            replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+        
+            //Chagne l'email mail:to en lien cliquable
+            replacePattern3 = /(([a-zA-Z0-9\-_.])+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
+            replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+        
+            return replacedText;
         },
     }
 }

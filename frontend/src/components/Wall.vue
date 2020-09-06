@@ -18,7 +18,7 @@
                     <p class="ml-2 mr-2 text-justify" v-html="$linkify(message.message)"/>
                 </div>
                 <div class="d-flex justify-content-end mb-3 btn-list">
-                    <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-success btn-minimal btn-reply btn-primary mt-2" title="Répondre"><i class="fa fa-reply text-white"></i></button>
+                    <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-primary btn-minimal btn-reply btn-primary mt-2" title="Répondre"><i class="fa fa-reply text-white"></i></button>
                     <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message.user_id)" @click="currentMessage = message" class="btn btn-minimal btn-modify btn-secondary ml-2 mt-2" title="Modifier"><i class="fa fa-edit text-white"></i></button>
                     <button v-show="checkUserRight(message.user_id)" class="btn btn-minimal btn-trash btn-secondary ml-2 mt-2" title="Supprimer" @click="deleteMessage(message.id)"><i class="fa fa-trash text-white"></i></button>
                 </div>
@@ -114,26 +114,6 @@ export default {
                 }
             )
         },
-        deleteMessage(id){ 
-            this.$ajax("delete", "/message/" + id)
-                .then((response) => {
-                    console.log(response);
-                    this.getTopics();
-                    this.$swal({
-                        icon: 'success',
-                        title: 'Message supprimé !',
-                        showConfirmButton: false,
-                        timer: 1500
-                        });
-                }).catch((error) => {
-                    console.log(error);
-                    this.$swal({
-                            icon: 'erreur',
-                            title: 'Oops...',
-                            text: 'Erreur :(',
-                    });
-                });
-        },
         createTopic(){
             let user = JSON.parse(localStorage.getItem('user'))
             this.saveBtnDisabled = true;
@@ -157,7 +137,27 @@ export default {
                             text: 'Error :(',
                     });
                 });
-        }        
+        },
+        deleteMessage(id){ 
+            this.$ajax("delete", "/message/" + id)
+                .then((response) => {
+                    console.log(response);
+                    this.getTopics();
+                    this.$swal({
+                        icon: 'success',
+                        title: 'Message supprimé !',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+                }).catch((error) => {
+                    console.log(error);
+                    this.$swal({
+                            icon: 'erreur',
+                            title: 'Oops...',
+                            text: 'Erreur :(',
+                    });
+                });
+        },        
     }
 }
 </script>

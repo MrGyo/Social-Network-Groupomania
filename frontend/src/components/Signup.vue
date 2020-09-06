@@ -2,7 +2,7 @@
     <div class="vue-template inner-block">
         <header-user></header-user>
         <form>
-            <h3 class="mb-10" style="color:#091f43;">Créer votre compte :)</h3>
+            <h3 class="mb-10">Créer votre compte :)</h3>
             <div class="form-group text-center">
                 <label>Pseudo</label>
                 <input v-on:click="unlockButton();" type="text" class="form-control form-control-lg" v-model="login"/>

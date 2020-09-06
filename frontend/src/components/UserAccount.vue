@@ -20,14 +20,34 @@ export default {
         getEmail() {
             return this.$store.getters.user.email;
         },
-        deleteAccount() {
-            if (!this.$confirmDeleteAccount())
-                return;
+        /*deleteAccount() {
+            this.$confirmDeleteAccount();
             this.$ajax("delete", "/user/" + this.$store.getters.user.userId)
                 .then((response) => {
                     console.log(response);
                 }).catch((error) => {
                     console.log(error);
+                });
+        },*/
+        deleteAccount() {
+            this.$ajax("delete", "/user/" + this.$store.getters.user.userId)
+                .then((response) => {
+                    console.log(response);
+                    this.$swal({
+                        icon: 'success',
+                        title: 'Votre compte est fermé',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+                        this.$clearStorage();
+                        setTimeout(() => {  this.$router.push({ name: 'login'}); }, 1500);
+                }).catch((error) => {
+                    console.log(error);
+                    this.$swal({
+                            icon: 'erreur',
+                            title: 'Oops...',
+                            text: 'Erreur :(',
+                    });
                 });
         }
     }
