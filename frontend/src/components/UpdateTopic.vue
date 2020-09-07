@@ -36,7 +36,6 @@ export default {
     },
     methods: {
         updateTopic(){
-            //let user = JSON.parse(localStorage.getItem('user'))
             this.saveBtnDisabled = true;
             var updateTopic = (!this.currentMessage.id_parent) ? {title: this.title, message: this.message} : { message: this.message};
             console.log(this.messageId);

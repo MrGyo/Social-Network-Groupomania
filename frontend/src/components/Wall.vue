@@ -1,14 +1,18 @@
 <template>
     <div class="vue-template inner-block-wall">
         <header-content></header-content>
-        <!--<h1 class="text-center text-dark font-weight-bold mb-5">{{ txt }}</h1>-->
+
+        <!-- Boutons nouveau "message" et liste des "membres" : -->
         <div class="d-flex justify-content-between mb-4">
             <button v-b-modal.modalTopic @click="selectParent(null)" class="btn btn-primary btn-new-topic"><i class="fa fa-plus text-white mr-2"></i>Message</button>
             <button v-b-modal.modalUsersList class="btn btn-users-list btn-dark" ><i class="fa fa-list-ul text-white mr-2"></i>Membres</button>
         </div>
         <hr>
+
         <ul>
+            <!-- Affiche le éléments dédiés aux topics : -->
             <li class="mb-4 mt-4" v-bind:key="index" v-for="(message, index) in allMessages">
+                <!-- Timer, Titre, Message et Auteur : -->
                 <div class="date_message-parent"><i class="fa fa-clock text-dark"></i>{{ moment(message.creation_date).fromNow() }}</div> 
                 <div class="card mb-1 topic-card">
                     <div class="d-flex justify-content-between flex-nowrap">
@@ -17,12 +21,16 @@
                     </div>
                     <p class="ml-2 mr-2 text-justify" v-html="$linkify(message.message)"/>
                 </div>
+                <!-- Boutons "répondre" et/ou "modifier" et/ou "supprimer" : -->
                 <div class="d-flex justify-content-end mb-3 btn-list">
                     <button v-b-modal.modalTopic @click="selectParent(message)" class="btn btn-primary btn-minimal btn-reply btn-primary mt-2" title="Répondre"><i class="fa fa-reply text-white"></i></button>
                     <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message.user_id)" @click="currentMessage = message" class="btn btn-minimal btn-modify btn-secondary ml-2 mt-2" title="Modifier"><i class="fa fa-edit text-white"></i></button>
                     <button v-show="checkUserRight(message.user_id)" class="btn btn-minimal btn-trash btn-secondary ml-2 mt-2" title="Supprimer" @click="deleteMessage(message.id)"><i class="fa fa-trash text-white"></i></button>
                 </div>
+
+                <!-- Affiche les éléments dédiés aux réponses : -->
                 <div v-bind:key="index" v-for="(childMessage, index) in message.children">
+                    <!-- Timer, Titre, Message et Auteur : -->
                     <div class="date_message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
                     <div class="card ml-5 reply-card">
                         <div class="d-flex justify-content-between flex-nowrap">
@@ -31,6 +39,7 @@
                         </div>
                         <p class="ml-2 mr-2 text-justify reply-content" v-html="$linkify(childMessage.message)"/>
                     </div>
+                    <!-- Boutons "modifier" et/ou "supprimer" + bouton invisble "helper" : -->
                     <div class="d-flex justify-content-end mb-1 btn-list">
                         <button class="btn btn-minimal btn-helper ml-2 my-3"><i class="fa fa-circle text-white icon-helper"></i></button>
                         <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage.user_id)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-modify btn-secondary ml-2 my-3" title="Modifier"><i class="fa fa-edit text-white"></i></button>
@@ -39,11 +48,14 @@
                 </div>
             </li>
             <hr>
+
+            <!-- Boutons scrollToTop : -->
             <div class="d-flex justify-content-center top-wall" @click="scrollToTop()">
                 <i class="fa fa-caret-up fa-3x text-dark top-wall-btn"></i>
             </div>
         </ul>
-        
+
+        <!-- Liste des modales : -->
         <b-modal class="mr-5" ref="modalTopic" id="modalTopic"  @hide="getTopics()" size="lg" hide-footer centered title="Exprimez-vous !">
             <new-topic :parentId="currentParentId" :parentTitle="currentParentTitle"  />
         </b-modal>
@@ -74,6 +86,8 @@ export default {
             allMessages: [],
             usersList: [],
             moment: moment,
+            perPage: 3,
+            currentPage: 1,
         }
     },
     components: {
@@ -104,39 +118,15 @@ export default {
             this.allMessages = [];
             this.$ajax("get", "/message", user)
                 .then((reponse) => {
-                    //-- JR select des parents seulement
+                    // On sélectionne les parents
                     let parents = reponse.data.results.filter( item => item.id_parent == null);
                     parents.forEach(parent => {
-                        //-- Creation d'un tableau pour les enfants
+                        // On crée un tableau pour les enfants, pour chaque parent on associe les enfants
                         parent.children = reponse.data.results.filter( item => item.id_parent == parent.id).reverse();
                     });
                     this.allMessages = parents;
                 }
             )
-        },
-        createTopic(){
-            let user = JSON.parse(localStorage.getItem('user'))
-            this.saveBtnDisabled = true;
-            var newTopic = {title: this.title, message: this.message, user_id: user.userId, id_parent: (this.parentId == null) ? "" : this.parentId};
-            this.$ajax("post", "/message", newTopic)
-                .then((response) => {
-                    console.log(response);
-                    this.saveBtnDisabled = false;
-                    this.$root.$emit('bv::hide::modal', 'modalTopic');
-                    this.$swal({
-                        icon: 'success',
-                        title: 'Message envoyé !',
-                        showConfirmButton: false,
-                        timer: 1500
-                        });
-                }).catch((error) => {
-                    console.log(error);
-                    this.$swal({
-                            icon: 'erreur',
-                            title: 'Oops...',
-                            text: 'Error :(',
-                    });
-                });
         },
         deleteMessage(id){ 
             this.$ajax("delete", "/message/" + id)

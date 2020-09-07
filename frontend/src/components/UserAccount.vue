@@ -33,6 +33,7 @@ export default {
             this.$ajax("delete", "/user/" + this.$store.getters.user.userId)
                 .then((response) => {
                     console.log(response);
+                    this.$root.$emit('bv::hide::modal', 'modalUserAccount');
                     this.$swal({
                         icon: 'success',
                         title: 'Votre compte est fermé',

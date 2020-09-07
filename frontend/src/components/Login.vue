@@ -11,12 +11,12 @@
                 <label>Mot de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
             </div>
-            <button type="submit" v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-validate btn-dark btn-lg btn-block my-4">Valider</button>
-            <p class="forgot-password text-center">
-                Besoin d'un compte ?
-                <router-link :to="{name: 'signup'}"><span style="color:#d1515a;">Inscrivez-vous</span></router-link>
-            </p>
         </form>
+        <button v-on:click="loginAccount()" :disabled="saveBtnDisabled" class="btn btn-validate btn-dark btn-lg btn-block my-4">Valider</button>
+        <p class="forgot-password text-center">
+            Besoin d'un compte ?
+            <router-link :to="{name: 'signup'}"><span style="color:#d1515a;">Inscrivez-vous</span></router-link>
+        </p>
     </div>
 </template>
 

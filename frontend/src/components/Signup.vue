@@ -15,12 +15,12 @@
                 <label>Mot de passe</label>
                 <input v-on:click="unlockButton();" type="password" class="form-control form-control-lg" v-model="password"/>
             </div>
-            <button type="submit" v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-validate btn-dark btn-lg btn-block my-4">Valider</button>
             <p class="forgot-password text-center">
                 Déjà enregistré ?
                 <router-link :to="{name: 'login'}"><span style="color:#d1515a;">Connectez-vous</span></router-link>
             </p>
         </form>
+        <button v-on:click="createAccount();" :disabled="saveBtnDisabled" class="btn btn-validate btn-dark btn-lg btn-block my-4">Valider</button>
     </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
                     this.saveBtnDisabled = false;
                     // Si on a une réponse on appelle la méthode login prévue par le fichier index.js du dossier mixins pour une connexion automatique de l'utilisateur après la création de son compte
                     this.$login(newUser).then((response) => {
-                        console.log(response);
+                    console.log(response);
                     }); 
                 });
             this.$welcomeMessage();

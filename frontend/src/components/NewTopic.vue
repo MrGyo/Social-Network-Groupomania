@@ -34,7 +34,7 @@ export default {
             let user = JSON.parse(localStorage.getItem('user'))
             this.saveBtnDisabled = true;
             var newTopic = {title: this.title, message: this.message, user_id: user.userId, id_parent: (this.parentId == null) ? "" : this.parentId};
-            this.$ajax("post", "/message", newTopic)
+            this.$ajax("post", "/message/", newTopic)
                 .then((response) => {
                     console.log(response);
                     this.saveBtnDisabled = false;
