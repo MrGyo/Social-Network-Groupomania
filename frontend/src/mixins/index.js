@@ -224,7 +224,7 @@ export default {
                   })
                   swalWithBootstrapButtons.fire({
                     title: 'Oops!',
-                    text: 'Entrez un mot de passe valide',
+                    text: 'Entrez un mot de passe d\'au moins 5 caractères',
                     icon: 'error',
                     confirmButtonText: 'OK',
                   }).then((result) => {
