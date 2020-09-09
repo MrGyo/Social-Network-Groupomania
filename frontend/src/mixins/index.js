@@ -29,6 +29,13 @@ export default {
             })
         },
 
+        // On fait un setitem du user dans le local storage pour une session de 24h
+        $initLogin(response) {
+            console.log(response);
+            this.$store.state.user = response.data;
+            localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
+        },
+
         // On crée une méthode login qui va être utilisée dans la méthode signup afin que l'utilisateur soit connecté automatiquement après son enregistrement
         $login(user) {
             // On retourne les résultats de la méthode ajax
@@ -38,13 +45,6 @@ export default {
                 }).catch((error) => {
                     console.log(error.response.data.message);
                 });
-        },
-
-        // On fait un setitem du user dans le local storage pour une session de 24h
-        $initLogin(response) {
-            console.log(response);
-            this.$store.state.user = response.data;
-            localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(response.data))
         },
 
         // On contrôle qu'un user soit bien connecté pour l'accès au forum
@@ -57,7 +57,6 @@ export default {
                 this.$ajax("get", "/user/checkAuth")
                 .then((response) => {
                     console.log(response);
-                    //Récupère les données du LocalStorage qui les met vers le store
                     this.$store.state.user = JSON.parse(storageDataUser);
                 }).catch((error) => {
                     console.log(error);

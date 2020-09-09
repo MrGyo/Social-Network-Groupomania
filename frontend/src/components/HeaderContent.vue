@@ -59,4 +59,14 @@ export default {
     background: #091f44!important;
     border:#091f44!important;
 }*/
+@media (max-width: 576px) { 
+    .btn-cancel-delog {
+        margin-left: 0!important;
+    }
+
+    .btn-confirm-delog {
+        margin-right: 0!important;
+    }
+
+}
 </style>

@@ -141,6 +141,15 @@ label {
   margin-right: 2%!important;
 }
 
+@media (max-width: 576px) { 
+  .btn-cancel-delog {
+      margin-left: 0!important;
+  }
+  .btn-confirm-delog {
+      margin-right: 0!important;
+      margin-bottom: 1%!important;
+  }
+}
 
 
 

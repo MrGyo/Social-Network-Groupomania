@@ -81,7 +81,19 @@ label {
 p {
     color: #091f44!important;
 }*/
-@media (max-width: 991.98px) { 
+@media (max-width: 576px) { 
+    .inner-block {
+        width: 80%;
+        margin-top: 35%!important;
+    }
+}
+@media (min-width: 576px) and (max-width: 767.98px)  { 
+    .inner-block {
+        width: 80%;
+        margin-top: 35%!important;
+    }
+}
+@media (min-width: 768px) and (max-width: 991.98px) { 
     .inner-block {
         width: 80%;
         margin-top: 25%!important;

@@ -37,15 +37,16 @@ export default {
                     this.$swal({
                         icon: 'success',
                         title: 'Votre compte est fermé',
+                        text: 'Contactez votre administrateur pour une suppression définitive de votre compte, admin@groupomania.fr',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 5000
                         });
                         this.$clearStorage();
-                        setTimeout(() => {  this.$router.push({ name: 'login'}); }, 1500);
+                        setTimeout(() => {  this.$router.push({ name: 'login'}); }, 5000);
                 }).catch((error) => {
                     console.log(error);
                     this.$swal({
-                            icon: 'erreur',
+                            icon: 'error',
                             title: 'Oops...',
                             text: 'Erreur :(',
                     });

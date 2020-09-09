@@ -13,7 +13,7 @@
             <!-- Affiche le éléments dédiés aux topics : -->
             <li class="mb-4 mt-4" v-bind:key="index" v-for="(message, index) in allMessages">
                 <!-- Timer, Titre, Message et Auteur : -->
-                <div class="date_message-parent"><i class="fa fa-clock text-dark"></i>{{ moment(message.creation_date).fromNow() }}</div> 
+                <div class="date-message-parent"><i class="fa fa-clock text-dark"></i>{{ moment(message.creation_date).fromNow() }}</div> 
                 <div class="card mb-1 topic-card">
                     <div class="d-flex justify-content-between flex-nowrap">
                         <p class="ml-2 mt-3 font-weight-bold title-parent" v-html="message.title"/>
@@ -31,7 +31,7 @@
                 <!-- Affiche les éléments dédiés aux réponses : -->
                 <div v-bind:key="index" v-for="(childMessage, index) in message.children">
                     <!-- Timer, Titre, Message et Auteur : -->
-                    <div class="date_message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
+                    <div class="date-message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
                     <div class="card ml-5 reply-card">
                         <div class="d-flex justify-content-between flex-nowrap">
                             <p class="ml-2 mt-3 font-weight-bold reply-content title-child" v-html="'Re: ' + message.title"/>
@@ -245,13 +245,13 @@ hr {
     border-top: 3px double #8b8b8c;
     opacity: 0.3;
 }
-.date_message-parent {
+.date-message-parent {
     font-size: 0.8em;
     margin-left: 1.5%;
     margin-bottom: 0.5%;
     font-weight: bold;
 }
-.date_message-child {
+.date-message-child {
     font-size: 0.8em;
     margin-left: 8.5%;
     margin-bottom: 0.5%;
@@ -267,11 +267,48 @@ hr {
 .bottom-wall {
     margin-top: 10%;
 }
-@media (max-width: 991.98px) { 
 
+@media (max-width: 576px) { 
     .inner-block-wall {
-    margin-top: 20%!important;
-    }   
+        margin-top: 40%!important;
+        margin-right: 3%!important;
+        margin-left: 3%!important;
+        padding-right: 5%!important;
+        padding-left: 5%!important;
+        width: auto!important;
+    }
+    .date-message-child {
+        margin-left: 15%!important;
+    }
+    .btn-list {
+        margin-top: -8.5%;
+    }
+    .btn-cancel-delog {
+        margin-left: 0!important;
+    }
+
+    .btn-confirm-delog {
+        margin-right: 0!important;
+    }
+}
+@media (min-width: 576px) and (max-width: 767.98px)  { 
+    .inner-block-wall {
+        margin-top: 30%!important;
+        margin-right:3%!important;
+        margin-left:3%!important;
+        width: auto!important;
+    }
+    .btn-list {
+        margin-top: -4.5%;
+    }
+}
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    .inner-block-wall {
+        margin-top: 20%!important;
+        margin-right:3%!important;
+        margin-left:3%!important;
+        width: auto!important;
+    }
 }
 
 </style>
