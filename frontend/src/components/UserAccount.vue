@@ -60,6 +60,7 @@ export default {
 .inner-block-wall {
     margin-top: 10%!important;
 }
+
 .btn {
   width: 220px!important;
   font-size: 0.9em!important;

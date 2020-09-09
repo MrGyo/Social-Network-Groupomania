@@ -48,17 +48,12 @@ export default {
 .welcome-message {
     font-family: 'Montserrat', sans-serif;
 }
+
 .logout {
     font-size: 0.8em!important;
     width: 120px!important;
-    /*color: #091f44!important;*/
 }
-/*.logout:hover {
-    font-size: 0.8em!important;
-    width: 120px!important;
-    background: #091f44!important;
-    border:#091f44!important;
-}*/
+
 @media (max-width: 576px) { 
     .btn-cancel-delog {
         margin-left: 0!important;
@@ -67,6 +62,5 @@ export default {
     .btn-confirm-delog {
         margin-right: 0!important;
     }
-
 }
 </style>

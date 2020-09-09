@@ -98,6 +98,6 @@ exports.deleteUser = (req, res, next) => {
 
 exports.checkAuth = (req, res, next) => {
     //console.log(userId);
-    //TODO: check si le user est pas delete
+    //TODO: check si le user n'est pas delete
     return res.status(200).json({ message: 'Everything is fine: your session exist !'});
 };

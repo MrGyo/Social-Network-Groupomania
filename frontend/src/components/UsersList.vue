@@ -41,9 +41,11 @@ ul {
     list-style-type: none;
     padding-inline-start: 0!important;
 }
+
 .inner-block-wall {
     margin-top: 10%!important;
 }
+
 .btn-supr {
     position: absolute;
     width: 100px!important;
@@ -51,9 +53,11 @@ ul {
     top:10px;
     right: 10px;
 }
+
 .card {
     border: none!important;
 }
+
 .contact {
     padding-left: 4%;
 }

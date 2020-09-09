@@ -158,112 +158,137 @@ export default {
     background-color:#f3f3f3!important;
     z-index: 1!important;
 }
+
 .reply-card {
     border-radius: 10px!important;
     z-index: 1!important;
 }
+
 .author-message {
     color: #d14750!important;
 }
+
 ul {
     list-style-type: none;
     padding-inline-start: 0!important;
 }
+
 .btn-list {
     margin-right: 1%;
     margin-top: -4.5%;
     position: relative;
     z-index: 2!important;
 }
+
 .btn {
     width: 120px!important;
     font-size: 0.9em!important;
 }
+
 .btn-new-topic {
     background-color: #283855!important;
     border-color:  #283855!important;
     border-radius: 100px;
 }
+
 .btn-new-topic:hover {
     background-color: #1e2a3f!important;
     background-color: #1e2a3f!important;
     border-radius: 100px;
 }
+
 .btn-reply {
     background-color: #283855!important;
     border-color: #283855!important;
     border-radius: 100px;
 }
+
 .btn-reply:hover {
     background-color: #1e2a3f!important;
     background-color: #1e2a3f!important;
     border-radius: 100px;
 }
+
 .btn-modify {
     background-color: #327da8!important;
     border-color: #327da8!important;
     border-radius: 100px;
 }
+
 .btn-modify:hover {
     background-color: #296181!important;
     border-color: #296181!important;
     border-radius: 100px;
 }
+
 .btn-users-list {
     background-color: #d14750!important;
     border-color: #d14750!important;
     border-radius: 100px;
 }
+
 .btn-users-list:hover {
     background-color: #b13c44!important;
     border-color: #b13c44!important;
     border-radius: 100px;
 }
+
 .btn-minimal {
     width: 40px!important;
     font-size: 1em!important;
     border-radius: 100%;
 }
+
 .btn-helper {
     z-index: 0!important;
     cursor: default!important;
 }
+
 .icon-helper {
     color: transparent!important;
 }
+
 .inner-block-wall {
     margin-top: 10%!important;
     margin-bottom: 5%!important;
 }
+
 .reply-content {
     font-size: 0.9em;
 }
+
 .title-parent {
     color: #091f44!important;
 }
+
 hr {
     border-top: 3px double #8b8b8c;
     opacity: 0.3;
 }
+
 .date-message-parent {
     font-size: 0.8em;
     margin-left: 1.5%;
     margin-bottom: 0.5%;
     font-weight: bold;
 }
+
 .date-message-child {
     font-size: 0.8em;
     margin-left: 8.5%;
     margin-bottom: 0.5%;
     font-weight: bold;
 }
+
 .top-wall {
     width: 100%;
 }
+
 .top-wall-btn {
     cursor: pointer;
     color: #283855!important;
 }
+
 .bottom-wall {
     margin-top: 10%;
 }
@@ -291,6 +316,7 @@ hr {
         margin-right: 0!important;
     }
 }
+
 @media (min-width: 576px) and (max-width: 767.98px)  { 
     .inner-block-wall {
         margin-top: 30%!important;
@@ -302,6 +328,7 @@ hr {
         margin-top: -4.5%;
     }
 }
+
 @media (min-width: 768px) and (max-width: 991.98px) { 
     .inner-block-wall {
         margin-top: 20%!important;

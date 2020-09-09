@@ -76,38 +76,26 @@ export default {
 .inner-block {
     margin-top: 10%!important;
 }
+
 .btn {
   width: 100%!important;
   font-size: 1em!important;
 }
-/*.btn-validate {
-  background-color: #091f44!important;
-  border-color: #091f44!important;
-  border-radius: 100px;
-}
-.btn-validate:hover {
-  background-color: #051024!important;
-  border-color: #051024!important;
-  border-radius: 100px;
-}
-label {
-    color: #091f44!important;
-}
-p {
-    color: #091f44!important;
-}*/
+
 @media (max-width: 576px) { 
     .inner-block {
         width: 80%;
         margin-top: 35%!important;
     }
 }
+
 @media (min-width: 576px) and (max-width: 767.98px)  { 
     .inner-block {
         width: 80%;
         margin-top: 35%!important;
     }
 }
+
 @media (min-width: 768px) and (max-width: 991.98px) { 
     .inner-block {
         width: 80%;
