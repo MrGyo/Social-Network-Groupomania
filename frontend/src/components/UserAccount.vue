@@ -5,7 +5,7 @@
             <li>Adresse email: <span class="font-weight-bold">{{ getEmail() }}</span></li>
         </ul>
         <div class="d-flex justify-content-end">
-            <button class="btn btn-supr btn btn-secondary ml-2" @click="deleteAccount()"><i class="fa fa-times text-white mr-2"></i>Fermeture du compte</button>
+            <button class="btn btn-supr btn btn-secondary ml-2" @click="deleteAccount()"><i class="fa fa-times text-white mr-2"></i>Supprimer votre compte</button>
         </div>
     </div>
 </template>
@@ -20,15 +20,6 @@ export default {
         getEmail() {
             return this.$store.getters.user.email;
         },
-        /*deleteAccount() {
-            this.$confirmDeleteAccount();
-            this.$ajax("delete", "/user/" + this.$store.getters.user.userId)
-                .then((response) => {
-                    console.log(response);
-                }).catch((error) => {
-                    console.log(error);
-                });
-        },*/
         deleteAccount() {
             this.$ajax("delete", "/user/" + this.$store.getters.user.userId)
                 .then((response) => {
@@ -36,8 +27,7 @@ export default {
                     this.$root.$emit('bv::hide::modal', 'modalUserAccount');
                     this.$swal({
                         icon: 'success',
-                        title: 'Votre compte est fermé',
-                        text: 'Contactez votre administrateur pour une suppression définitive de votre compte, admin@groupomania.fr',
+                        title: 'Votre compte est supprimé',
                         showConfirmButton: false,
                         timer: 5000
                         });
@@ -62,7 +52,7 @@ export default {
 }
 
 .btn {
-  width: 220px!important;
+  width: 235px!important;
   font-size: 0.9em!important;
 }
 </style>
