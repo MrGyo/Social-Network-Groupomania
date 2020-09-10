@@ -37,6 +37,7 @@ export default {
     methods: {
         updateTopic(){
             this.saveBtnDisabled = true;
+            // Si je n'ai pas un id-parent (de l'enfant) alors j'envoie en ajax un titre + message sinon juste un message
             var updateTopic = (!this.currentMessage.id_parent) ? {title: this.title, message: this.message} : { message: this.message};
             console.log(this.messageId);
 

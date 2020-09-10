@@ -17,7 +17,7 @@
                 <div class="card mb-1 topic-card">
                     <div class="d-flex justify-content-between flex-nowrap">
                         <p class="ml-2 mt-3 font-weight-bold title-parent" v-html="message.title"/>
-                        <p class="mr-2 mt-3 font-italic author-message">Par {{ message.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
+                        <p class="mr-2 mt-3 font-italic author-message">Par <a :href="'mailto: ' + message.email">{{ message.username }}</a><i class="fa fa-user-circle text-dark ml-2"></i></p>
                     </div>
                     <p class="ml-2 mr-2 text-justify" v-html="$linkify(message.message)"/>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="card ml-5 reply-card">
                         <div class="d-flex justify-content-between flex-nowrap">
                             <p class="ml-2 mt-3 font-weight-bold reply-content title-child" v-html="'Re: ' + message.title"/>
-                            <p class="mr-2 mt-3 font-italic reply-content author-message">Par {{ childMessage.username }}<i class="fa fa-user-circle text-dark ml-2"></i></p>
+                            <p class="mr-2 mt-3 font-italic reply-content author-message">Par <a :href="'mailto: ' + childMessage.email">{{ childMessage.username }}</a><i class="fa fa-user-circle text-dark ml-2"></i></p>
                         </div>
                         <p class="ml-2 mr-2 text-justify reply-content" v-html="$linkify(childMessage.message)"/>
                     </div>
@@ -153,6 +153,10 @@ export default {
 </script>
 
 <style scoped>
+a {
+    color: #d14750!important;
+    text-decoration: underline!important;
+}
 .topic-card {
     border-radius: 10px!important;
     background-color:#f3f3f3!important;

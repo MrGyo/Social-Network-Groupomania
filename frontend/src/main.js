@@ -20,6 +20,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(BootstrapVue);
 Vue.use(VueSweetalert2);
 
+import './mixins';
+
 // Configuration
 Vue.config.productionTip = false
 
@@ -32,8 +34,8 @@ const API = {
 Vue.use(API);
 
 // Import permettant d'accéder au fichier index.js du dossier mixin
-import helper from './mixins';
-Vue.mixin(helper);
+
+//Vue.mixin(helper);
 
 new Vue({
   router,

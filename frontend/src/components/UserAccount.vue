@@ -29,10 +29,10 @@ export default {
                         icon: 'success',
                         title: 'Votre compte est supprimé',
                         showConfirmButton: false,
-                        timer: 5000
+                        timer: 2500
                         });
                         this.$clearStorage();
-                        setTimeout(() => {  this.$router.push({ name: 'login'}); }, 5000);
+                        setTimeout(() => {  this.$router.push({ name: 'login'}); }, 2500);
                 }).catch((error) => {
                     console.log(error);
                     this.$swal({
