@@ -82,7 +82,7 @@ exports.getAllusers = (req, res, next) => {
     );
 };
 
-exports.deleteUser = (req, res, next) => {
+/*exports.deleteUser = (req, res, next) => {
     let query = `UPDATE user SET fl_delete=1 WHERE id=${req.params.id}`;
     db.query(query, function (error, results, fields) {
         console.log(error);
@@ -94,7 +94,27 @@ exports.deleteUser = (req, res, next) => {
             .json({ message: 'Your account has been deleted !' })
         }
     );
-};
+};*/
+
+exports.deleteUser = (req, res, next) => {
+    let query = `UPDATE user SET fl_delete=1 WHERE id=${req.params.id}`;
+    db.query(query, function (error, results, fields) {
+        if (error) {
+          return res.status(400).json(error)
+        };
+        let query2 = `UPDATE user SET email=NULL WHERE id=${req.params.id}`;
+        db.query(query2, function (error, results, fields) {
+            if (error) {
+              return res.status(400).json(error)
+            }
+            return res
+              .status(200)
+              .json({ message: 'Your account has been deleted !' })
+          }
+        );
+      }
+    );
+  };
 
 exports.checkAuth = (req, res, next) => {
     //console.log(userId);

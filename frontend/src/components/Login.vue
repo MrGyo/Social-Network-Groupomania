@@ -1,7 +1,7 @@
 <template>
     <div class="vue-template inner-block">
         <header-user></header-user>
-        <form>
+        <form class="mb-4">
             <h3 mb-3>Connexion</h3>
             <div class="form-group text-center">
                 <label>Pseudo</label>
