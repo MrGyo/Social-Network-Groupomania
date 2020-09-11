@@ -4,20 +4,16 @@ const config = require('../config/auth.config');
 
 exports.createTopic = (req, res, next) => {
   let topic = req.body
-  let query = "";
-  console.log(topic);
-  if (topic.id_parent == "")
-    query= "INSERT INTO topic SET title='" + topic.title.addSlashes() + "', message='" + topic.message.addSlashes() + "', user_id= '" + topic.user_id + "'";
-  else
-    query= "INSERT INTO topic SET title='" + topic.title.addSlashes() + "', message='" + topic.message.addSlashes() + "', user_id= '" + topic.user_id + "', id_parent= '" + topic.id_parent + "'";
-  db.query(query, function (error, results, fields) {
+  let query = 'INSERT INTO topic SET ?'
+  topic.id_parent = (topic.id_parent == '') ? null : topic.id_parent;
+  db.query(query, topic, function (error, results, fields) {
     if (error) {
       console.log(error);
-      return res.status(400).json(error);
+      return res.status(400).json(error)
     }
     return res.status(201).json({ message: 'Your message has been sent !' })
-  });
-};
+  })
+}
 
 exports.modifyMessage = (req, res, next) => {
   let query = 'SELECT * FROM topic WHERE id=?'
@@ -65,8 +61,10 @@ exports.getAllTopics = (req, res, next) => {
 };
 
 exports.deleteMessage = (req, res, next) => {
-  let query = `SELECT * FROM topic WHERE id=${req.params.id}`
-  db.query(query, function (error, results, fields) {
+  //let query = `SELECT * FROM topic WHERE id=${req.params.id}`
+  //db.query(query, function (error, results, fields) {
+  let query = "SELECT * FROM topic WHERE id=?"
+  db.query(query, req.params.id, function (error, results, fields) {
       if (error) {
         return res.status(400).json(error)
       };

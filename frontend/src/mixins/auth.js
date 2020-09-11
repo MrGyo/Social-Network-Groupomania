@@ -48,8 +48,8 @@ export default {
             } else {
                 this.$ajax("get", "/user/checkAuth")
                 .then((response) => {
-                    console.log(response);
-                    this.$store.state.user = JSON.parse(storageDataUser);
+                    //console.log(response);
+                    this.$store.state.user = response.data;
                 }).catch((error) => {
                     console.log(error);
                     this.$errorUser();

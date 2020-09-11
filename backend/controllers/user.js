@@ -11,14 +11,14 @@ const db = require('../mysqlConfig');
 
 // fonction signup
 exports.signup = (req, res, next) => {
-    const user = req.body;
+    let user = req.body;
     if (user.password == "" || user.password == undefined)
         return res.status(200).json({message:'No data !'});   
     bcrypt.hash(user.password, 10)
         .then(hash => {
         user.password = hash;
-        let query= "INSERT INTO user SET username='" + user.username + "', email='" + user.email+ "', password='" + user.password + "'";
-        db.query(query, function (error, results, fields){
+        let query= "INSERT INTO user SET ?";
+        db.query(query, user, function (error, results, fields){
             console.log("error sql:"); 
             console.log(error);
             if (error) {
@@ -38,8 +38,8 @@ exports.login = (req, res, next) => {
     if (!user || !password)
        return res.status(500).json({ message: "Enter a username and a password" });
        // on autorise les gens à se connecter si ils ne sont pas effacés
-    let query = "SELECT * FROM user WHERE username='" + user + "' AND fl_delete = 0";
-    db.query(query, function (error, results, fields) {
+    let query = "SELECT * FROM user WHERE username=? AND fl_delete = 0";
+    db.query(query, user, function (error, results, fields) {
         if (results.length > 0) {
             bcrypt.compare(password, results[0].password).then((valid) => {
                 if (valid) 
@@ -47,10 +47,6 @@ exports.login = (req, res, next) => {
                     console.log(user, "is connected to the chatroom");
                     console.log(results[0]);
                     return res.status(200).json({
-                        userId: results[0].id,
-                        username: results[0].username,
-                        email: results[0].email,
-                        userRight: results[0].user_right,
                         token: jwt.sign(
                         { userId: results[0].id, role: results[0].user_right },
                         config.secret,
@@ -82,28 +78,14 @@ exports.getAllusers = (req, res, next) => {
     );
 };
 
-/*exports.deleteUser = (req, res, next) => {
-    let query = `UPDATE user SET fl_delete=1 WHERE id=${req.params.id}`;
-    db.query(query, function (error, results, fields) {
-        console.log(error);
-        if (error) {
-            return res.status(400).json(error)
-        }
-        return res
-            .status(200)
-            .json({ message: 'Your account has been deleted !' })
-        }
-    );
-};*/
-
-exports.deleteUser = (req, res, next) => {
-    let query = `UPDATE user SET fl_delete=1 WHERE id=${req.params.id}`;
-    db.query(query, function (error, results, fields) {
+  exports.deleteUser = (req, res, next) => {
+    let query = "UPDATE user SET fl_delete=1 WHERE id=?";
+    db.query(query, req.params.id, function (error, results, fields) {
         if (error) {
           return res.status(400).json(error)
         };
-        let query2 = `UPDATE user SET email=NULL WHERE id=${req.params.id}`;
-        db.query(query2, function (error, results, fields) {
+        let query2 = "UPDATE user SET email=NULL WHERE id=?";
+        db.query(query2, req.params.id, function (error, results, fields) {
             if (error) {
               return res.status(400).json(error)
             }
@@ -117,7 +99,25 @@ exports.deleteUser = (req, res, next) => {
   };
 
 exports.checkAuth = (req, res, next) => {
-    //console.log(userId);
-    //TODO: check si le user n'est pas delete
-    return res.status(200).json({ message: 'Everything is fine: your session exist !'});
+
+    let token = req.headers.authorization.split(' ')[1];
+    let decodedToken = jwt.verify(token, config.secret);
+    let userId = decodedToken.userId;
+    let role = decodedToken.role;
+    
+    console.log(decodedToken);
+
+    let query = "SELECT username FROM user WHERE id=? AND fl_delete = 0";
+    db.query(query, userId, function (error, results, fields) {
+        if (error) {
+            return res.status(400).json(error)
+          }
+          else
+            return res.status(200).json({ 
+                'userId': userId, 
+                'role': role,
+                'token': token, 
+                'username': results[0].username 
+            });
+    });
 };

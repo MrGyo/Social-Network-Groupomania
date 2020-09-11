@@ -31,7 +31,8 @@ export default {
     },
     methods: {
         createTopic(){
-            let user = JSON.parse(localStorage.getItem('user'))
+            let user = this.$store.getters.user;
+            console.log(user);
             this.saveBtnDisabled = true;
             var newTopic = {title: this.title, message: this.message, user_id: user.userId, id_parent: (this.parentId == null) ? "" : this.parentId};
             this.$ajax("post", "/message/", newTopic)
@@ -48,7 +49,7 @@ export default {
                 }).catch((error) => {
                     console.log(error);
                     this.$swal({
-                            icon: 'erreur',
+                            icon: 'error',
                             title: 'Oops...',
                             text: 'Error :(',
                     });
