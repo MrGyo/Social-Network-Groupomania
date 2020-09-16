@@ -115,7 +115,7 @@ exports.checkAuth = (req, res, next) => {
           else
             return res.status(200).json({ 
                 'userId': userId, 
-                'role': role,
+                'userRight': role,
                 'token': token, 
                 'username': results[0].username 
             });
