@@ -35,7 +35,7 @@ Frontend
 
 * Backend
 
-Créer un fichier "auth.config.js" dans le dossier 'config' et d'y saisir une clé secrète : 
+Créer un fichier "auth.config.js" dans le dossier 'config' et saisir une clé secrète : 
 
 ```javascript
 module.exports = {
