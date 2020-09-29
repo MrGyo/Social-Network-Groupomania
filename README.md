@@ -75,6 +75,6 @@ Lancer la commande :
 npm install
 npm run serve
 ```
-## Synthèse
+* Synthèse
 
 Le document de présentation est disponible [ICI](https://github.com/MrGyo/p7/blob/master/soutenance/SOUTENANCE_P7_WEBDEV_20200910_1.pptx)
