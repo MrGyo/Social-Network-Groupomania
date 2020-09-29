@@ -15,7 +15,7 @@ Backend :
 * Express
 * MySql
 
-Frontend
+Frontend :
 * VueJS
 * Bootstrap
 * BootstrapVue
