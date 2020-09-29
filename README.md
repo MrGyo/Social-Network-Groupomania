@@ -35,6 +35,14 @@ Frontend
 
 * Backend
 
+Créer un fichier "auth.config.js" dans le dossier 'config' et d'y saisir une clé secrète : 
+
+```javascript
+module.exports = {
+  secret: "(key)"
+}
+```
+
 Installer toutes les dépendances nécessaires qui se trouvent dans le fichier package.json en utilisant la commande suivante : 
 
 ```
