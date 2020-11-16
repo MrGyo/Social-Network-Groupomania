@@ -2,7 +2,7 @@
     <div class="vue-template inner-block-wall">
         <header-content></header-content>
 
-        <!-- Boutons nouveau "message" et liste des "membres" : -->
+        <!-- Boutons nouveau "message" et liste des "membres" Groupomania : -->
         <div class="d-flex justify-content-between mb-4">
             <button v-b-modal.modalTopic @click="selectParent(null)" class="btn btn-primary btn-new-topic"><i class="fa fa-plus text-white mr-2"></i>Message</button>
             <button v-b-modal.modalUsersList class="btn btn-users-list btn-dark" ><i class="fa fa-list-ul text-white mr-2"></i>Membres</button>
