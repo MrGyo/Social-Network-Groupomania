@@ -27,24 +27,29 @@
                     <button v-b-modal.modalUpdateTopic v-show="checkUserRight(message.user_id)" @click="currentMessage = message" class="btn btn-minimal btn-modify btn-secondary ml-2 mt-2" title="Modifier"><i class="fa fa-edit text-white"></i></button>
                     <button v-show="checkUserRight(message.user_id)" class="btn btn-minimal btn-trash btn-secondary ml-2 mt-2" title="Supprimer" @click="deleteMessage(message.id)"><i class="fa fa-trash text-white"></i></button>
                 </div>
-
+                <!--<div class="d-flex ml-2 mb-3 test-hidden">
+                    <div v-if="isHidden" v-on:click="isHidden = false">Afficher les réponses</div>
+                    <div v-if="!isHidden" v-on:click="isHidden = true">Masquer les messages</div>
+                </div>-->
                 <!-- Affiche les éléments dédiés aux réponses : -->
                 <div v-bind:key="index" v-for="(childMessage, index) in message.children">
                     <!-- Timer, Titre, Message et Auteur : -->
-                    <div class="date-message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
-                    <div class="card ml-5 reply-card">
-                        <div class="d-flex justify-content-between flex-nowrap">
-                            <p class="ml-2 mt-3 font-weight-bold reply-content title-child" v-html="'Re: ' + message.title"/>
-                            <p class="mr-2 mt-3 font-italic reply-content author-message">Par <a title="Envoyer un email" :href="'mailto: ' + childMessage.email">{{ childMessage.username }}</a><i class="fa fa-user-circle text-dark ml-2"></i></p>
+                    <!--<div v-if="!isHidden">-->
+                        <div class="date-message-child">{{ moment(childMessage.creation_date).fromNow() }}</div>
+                        <div class="card ml-5 reply-card">
+                            <div class="d-flex justify-content-between flex-nowrap">
+                                <p class="ml-2 mt-3 font-weight-bold reply-content title-child" v-html="'Re: ' + message.title"/>
+                                <p class="mr-2 mt-3 font-italic reply-content author-message">Par <a title="Envoyer un email" :href="'mailto: ' + childMessage.email">{{ childMessage.username }}</a><i class="fa fa-user-circle text-dark ml-2"></i></p>
+                            </div>
+                            <p class="ml-2 mr-2 text-justify reply-content" v-html="$linkify(childMessage.message)"/>
                         </div>
-                        <p class="ml-2 mr-2 text-justify reply-content" v-html="$linkify(childMessage.message)"/>
-                    </div>
-                    <!-- Boutons "modifier" et/ou "supprimer" + bouton invisble "helper" : -->
-                    <div class="d-flex justify-content-end mb-1 btn-list">
-                        <button class="btn btn-minimal btn-helper ml-2 my-3"><i class="fa fa-circle text-white icon-helper"></i></button>
-                        <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage.user_id)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-modify btn-secondary ml-2 my-3" title="Modifier"><i class="fa fa-edit text-white"></i></button>
-                        <button v-show="checkUserRight(childMessage.user_id)" class="btn btn-minimal btn-trash btn-secondary ml-2 my-3" title="Supprimer" @click="deleteMessage(childMessage.id)"><i class="fa fa-trash text-white"></i></button>
-                    </div>
+                        <!-- Boutons "modifier" et/ou "supprimer" + bouton invisble "helper" : -->
+                        <div class="d-flex justify-content-end mb-1 btn-list">
+                            <button class="btn btn-minimal btn-helper ml-2 my-3"><i class="fa fa-circle text-white icon-helper"></i></button>
+                            <button v-b-modal.modalUpdateTopic v-show="checkUserRight(childMessage.user_id)"  @click="currentMessage = childMessage" class="btn btn-minimal btn-modify btn-secondary ml-2 my-3" title="Modifier"><i class="fa fa-edit text-white"></i></button>
+                            <button v-show="checkUserRight(childMessage.user_id)" class="btn btn-minimal btn-trash btn-secondary ml-2 my-3" title="Supprimer" @click="deleteMessage(childMessage.id)"><i class="fa fa-trash text-white"></i></button>
+                        </div>
+                    <!--</div>-->
                 </div>
             </li>
             <hr>
@@ -88,6 +93,8 @@ export default {
             moment: moment,
             perPage: 3,
             currentPage: 1,
+            // Test pour un hide des messages
+            // isHidden: false,
         }
     },
     components: {
@@ -147,7 +154,39 @@ export default {
                             text: 'Erreur :(',
                     });
                 });
-        },    
+        }, 
+        addHtmlLikes() {
+            // On attribue la méthode forEach à l'array de la collection HTML
+            HTMLCollection.prototype.forEach = Array.prototype.forEach;
+            // On déclaire une constante like qui se réfère à notre class like du html
+            const likes = document.getElementsByClassName('like');
+            // Permet de disliker le contenu
+            let countLike = [];
+            // On démarre l'animation au "click", on passe en argument l'item (le produit) et l'index (référence à l'array relatif aux fiches produits)
+            likes.forEach((item, index) => {
+                console.log(item);
+                //-- Init countLike at 0, aucun click pour chaque item de l'array
+                countLike[index] = 0;
+                item.addEventListener('click', () => {
+                    console.log("click like: " + index);
+                    // Si on arrive sur la page le compteur est = à 0,  quand on like le premier produit de l'array on retrouve le produit qui est à l'index 0 du tableau
+                    if(countLike[index] === 0) {
+                        // On envoie l'animation et on passe le compteur à 1 donc "liker"
+                        item.classList.toggle('anim-like');
+                        countLike[index] = 1;
+                        // Et on part à la fin de l'image
+                        item.style.backgroundPosition = 'right';
+                        // Puis unlike et on part au début de l'image
+                    } else {
+                        countLike[index] = 0;
+                        item.style.backgroundPosition = 'left';
+                    }
+                });
+                  item.addEventListener('animationend', () => {
+                  item.classList.toggle('anim-like');
+                });
+             });  
+          }   
     }
 }
 </script>
@@ -170,6 +209,13 @@ a {
 
 .author-message {
     color: #d14750!important;
+}
+
+.test-hidden {
+    margin-top: -4%;
+    font-size: 0.8em;
+    font-style: italic;
+    cursor : pointer;
 }
 
 ul {
