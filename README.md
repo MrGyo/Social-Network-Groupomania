@@ -75,7 +75,7 @@ Lancer la commande :
 npm install
 npm run serve
 ```
-Puis ouvrez votre navigateur sur [localhost:4200](http://localhost:4200/)
+Puis ouvrez votre navigateur sur [localhost:8080](http://localhost:8080/)
 
 * Synthèse
 
